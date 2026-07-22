@@ -15,8 +15,8 @@ def cargar_datos():
     return pd.read_csv(URL)
 
 df = cargar_datos()
-st.write(df.columns.tolist())
-
+df.columns = df.columns.str.strip()
+``
 st.title("🌻 Dashboard Preparación de Girasol")
 
 # ======================================
