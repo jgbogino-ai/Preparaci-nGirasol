@@ -15,6 +15,7 @@ def cargar_datos():
     return pd.read_csv(URL)
 
 df = cargar_datos()
+st.write(df.columns.tolist())
 
 st.title("🌻 Dashboard Preparación de Girasol")
 
@@ -266,7 +267,13 @@ def sem_gases(v):
 # -------------------------------
 
 lam_der_prensas = float(ultimo["Espesor lámina derecha (0,xx) MOLINO LADO PRENSAS"])
+# lam_der_prensas = float(
+#     ultimo["Espesor lámina derecha (0,xx) MOLINO LADO PRENSAS"]
+# )
 lam_izq_prensas = float(ultimo["Espesor lámina izquierda (0,xx) MOLINO LADO PRENSAS"])
+# lam_izq_prensas = float(
+#     ultimo["Espesor lámina izquierda (0,xx) MOLINO LADO PRENSAS"]
+# )
 
 corr1 = float(ultimo["Corriente (AMP) PRENSA 1"])
 corr2 = float(ultimo["Corriente (AMP) PRENSA 2"])
