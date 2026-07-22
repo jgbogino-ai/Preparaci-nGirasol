@@ -48,17 +48,17 @@ if temp_gases > 80:
 # ESTADO GENERAL
 # ======================================
 
-if len(alertas) > 0:
-    estado = "🔴 ALERTA"
-else:
-    estado = "🟢 NORMAL"
-
-st.markdown(f"# Estado Planta: {estado}")
+st.markdown("# Estado Planta: 🟢 NORMAL")
 
 # ======================================
 # KPI
 # ======================================
+# Advertencia Humedad de Salida
 
+if hum_salida < 6 or hum_salida > 8:
+    st.error(
+        f"⚠ Humedad Salida Secadora fuera de rango: {hum_salida:.1f}%"
+    )
 c1, c2, c3, c4 = st.columns(4)
 
 c1.metric(
@@ -85,13 +85,7 @@ c4.metric(
 # ALERTAS ACTIVAS
 # ======================================
 
-st.subheader("⚠ Alertas activas")
 
-if len(alertas) == 0:
-    st.success("Sin alertas activas")
-else:
-    for alerta in alertas:
-        st.error(alerta)
 
 # ======================================
 # OPERADORES
