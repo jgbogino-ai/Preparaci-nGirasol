@@ -126,79 +126,33 @@ st.plotly_chart(
     use_container_width=True
 )
 
+
+
 # ======================================
-# BARRAS OPERADORES
+# TORTA OPERADORES
 # ======================================
 
-fig2 = px.bar(
+fig = px.pie(
     operadores,
-    x="Operador",
-    y="Registros",
-    color="Registros",
-    text="Registros"
+    values="Registros",
+    names="Operador",
+    hole=0.55
+)
+
+fig.update_layout(
+    width=450,
+    height=350,
+    margin=dict(l=10,r=10,t=20,b=10)
 )
 
 st.plotly_chart(
-    fig2,
-    use_container_width=True
+    fig,
+    use_container_width=False
 )
 
 # ======================================
-# CORRIENTES
+# FUNCIONES SEMAFOROS
 # ======================================
-
-st.subheader("⚡ Corrientes de Prensas")
-
-corrientes = pd.DataFrame({
-    "Prensa":[
-        "Prensa 1",
-        "Prensa 2",
-        "Prensa 3"
-    ],
-    "AMP":[
-        float(ultimo["Corriente (AMP) PRENSA 1"]),
-        float(ultimo["Corriente (AMP) PRENSA 2"]),
-        float(ultimo["Corriente (AMP) PRENSA 3"])
-    ]
-})
-
-fig3 = px.bar(
-    corrientes,
-    x="Prensa",
-    y="AMP",
-    color="AMP",
-    text="AMP"
-)
-
-st.plotly_chart(
-    fig3,
-    use_container_width=True
-)
-# ======================================
-# SEMÁFOROS COMPLETOS DEL PROCESO
-# ======================================
-
-st.subheader("🟢🟡🔴 Estado del Proceso")
-
-def mostrar_estado(nombre, valor, estado, color):
-    st.markdown(
-        f"""
-        <div style="
-        padding:10px;
-        border-radius:10px;
-        margin:5px;
-        background-color:{color};
-        color:white;
-        font-weight:bold;">
-        {nombre}: {valor} → {estado}
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-# -------------------------------
-# FUNCIONES DE SEMÁFORO
-# -------------------------------
 
 def sem_lamina(v):
     return ("🟢 VERDE","green") if v <= 0.9 else ("🔴 ROJO","red")
@@ -244,16 +198,6 @@ def sem_pesaje(v):
     else:
         return ("🟢 VERDE","green")
 
-def sem_expeller(v):
-    if v < 12:
-        return ("🔴 ROJO","red")
-    elif v < 14:
-        return ("🟡 AMARILLO","orange")
-    elif v <= 16:
-        return ("🟢 VERDE","green")
-    else:
-        return ("🔴 ROJO","red")
-
 def sem_gases(v):
     if v > 80:
         return ("🔴 ROJO","red")
@@ -262,18 +206,9 @@ def sem_gases(v):
     else:
         return ("🟢 VERDE","green")
 
-# -------------------------------
-# LECTURA DE VARIABLES
-# -------------------------------
-
-lam_der_prensas = float(ultimo["Espesor lámina derecha (0,xx) MOLINO LADO PRENSAS"])
-# lam_der_prensas = float(
-#     ultimo["Espesor lámina derecha (0,xx) MOLINO LADO PRENSAS"]
-# )
-lam_izq_prensas = float(ultimo["Espesor lámina izquierda (0,xx) MOLINO LADO PRENSAS"])
-# lam_izq_prensas = float(
-#     ultimo["Espesor lámina izquierda (0,xx) MOLINO LADO PRENSAS"]
-# )
+# ======================================
+# VARIABLES
+# ======================================
 
 corr1 = float(ultimo["Corriente (AMP) PRENSA 1"])
 corr2 = float(ultimo["Corriente (AMP) PRENSA 2"])
@@ -282,111 +217,154 @@ corr3 = float(ultimo["Corriente (AMP) PRENSA 3"])
 coc1 = float(ultimo["Temperatura (°C) COCINA 1"])
 coc2 = float(ultimo["Temperatura (°C) COCINA 2"])
 
-hum_ent = float(ultimo["Humedad de entrada secadora (%)"])
-hum_sal = float(ultimo["Humedad salida secadora (%)"])
+lam_der = float(
+    ultimo["Espesor lámina derecha (0,xx) MOLINO LADO PRENSAS"]
+)
 
-pesaje = float(ultimo["Pesaje de balanza (tn/h)"])
+lam_izq = float(
+    ultimo["Espesor lámina izquierda (0,xx) MOLINO LADO PRENSAS"]
+)
 
-exp1 = float(ultimo["Espesor expeller (mm) PRENSA 1"])
-exp2 = float(ultimo["Espesor expeller (mm) PRENSA 2"])
-exp3 = float(ultimo["Espesor expeller (mm) PRENSA 3"])
+hum_ent = float(
+    ultimo["Humedad de entrada secadora (%)"]
+)
 
-gases = float(ultimo["TEMPERATURA DE GASES DE ENFRIADOR"])
+hum_sal = float(
+    ultimo["Humedad salida secadora (%)"]
+)
 
-# -------------------------------
-# FILA 1
-# -------------------------------
+gases = float(
+    ultimo["TEMPERATURA DE GASES DE ENFRIADOR"]
+)
+
+# ======================================
+# FUNCION TARJETA
+# ======================================
+
+def tarjeta(titulo, valor, estado, color):
+
+    st.markdown(
+        f"""
+        <div style="
+        background-color:{color};
+        border-radius:15px;
+        padding:15px;
+        margin:5px;
+        text-align:center;
+        color:white;">
+        <h3>{titulo}</h3>
+        <h1>{valor}</h1>
+        <h3>{estado}</h3>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# ======================================
+# PRENSAS
+# ======================================
+
+st.header("🔧 Prensas")
 
 c1,c2,c3 = st.columns(3)
 
+estado,color = sem_prensa12(corr1)
 with c1:
-    est,col = sem_lamina(lam_der_prensas)
-    mostrar_estado("Lámina Der.", round(lam_der_prensas,2), est, col)
+    tarjeta("PRENSA 1", f"{corr1:.0f} A", estado, color)
 
+estado,color = sem_prensa12(corr2)
 with c2:
-    est,col = sem_lamina(lam_izq_prensas)
-    mostrar_estado("Lámina Izq.", round(lam_izq_prensas,2), est, col)
+    tarjeta("PRENSA 2", f"{corr2:.0f} A", estado, color)
 
+estado,color = sem_prensa3(corr3)
 with c3:
-    est,col = sem_cocina1(coc1)
-    mostrar_estado("Cocina 1", round(coc1,1), est, col)
+    tarjeta("PRENSA 3", f"{corr3:.0f} A", estado, color)
 
-# -------------------------------
-# FILA 2
-# -------------------------------
+# ======================================
+# COCINAS
+# ======================================
 
-c4,c5,c6 = st.columns(3)
+st.header("🍳 Cocinas")
 
+c4,c5 = st.columns(2)
+
+estado,color = sem_cocina1(coc1)
 with c4:
-    est,col = sem_cocina2(coc2)
-    mostrar_estado("Cocina 2", round(coc2,1), est, col)
+    tarjeta("COCINA 1", f"{coc1:.1f} °C", estado, color)
 
+estado,color = sem_cocina2(coc2)
 with c5:
-    est,col = sem_hum_entrada(hum_ent)
-    mostrar_estado("Humedad Entrada", round(hum_ent,1), est, col)
+    tarjeta("COCINA 2", f"{coc2:.1f} °C", estado, color)
 
+# ======================================
+# LAMINADORES
+# ======================================
+
+st.header("📏 Laminadores")
+
+c6,c7 = st.columns(2)
+
+estado,color = sem_lamina(lam_der)
 with c6:
-    est,col = sem_hum_salida(hum_sal)
-    mostrar_estado("Humedad Salida", round(hum_sal,1), est, col)
+    tarjeta("LAMINA DERECHA", f"{lam_der:.2f} mm", estado, color)
 
-# -------------------------------
-# FILA 3
-# -------------------------------
-
-c7,c8,c9 = st.columns(3)
-
+estado,color = sem_lamina(lam_izq)
 with c7:
-    est,col = sem_prensa12(corr1)
-    mostrar_estado("Prensa 1", round(corr1,0), est, col)
+    tarjeta("LAMINA IZQUIERDA", f"{lam_izq:.2f} mm", estado, color)
 
+# ======================================
+# HUMEDADES
+# ======================================
+
+st.header("💧 Humedades")
+
+c8,c9 = st.columns(2)
+
+estado,color = sem_hum_entrada(hum_ent)
 with c8:
-    est,col = sem_prensa12(corr2)
-    mostrar_estado("Prensa 2", round(corr2,0), est, col)
+    tarjeta("ENTRADA SECADORA", f"{hum_ent:.1f} %", estado, color)
 
+estado,color = sem_hum_salida(hum_sal)
 with c9:
-    est,col = sem_prensa3(corr3)
-    mostrar_estado("Prensa 3", round(corr3,0), est, col)
+    tarjeta("SALIDA SECADORA", f"{hum_sal:.1f} %", estado, color)
 
-# -------------------------------
-# FILA 4
-# -------------------------------
+# ======================================
+# PRODUCCION
+# ======================================
 
-c10,c11,c12 = st.columns(3)
+st.header("📦 Producción")
 
-with c10:
-    est,col = sem_expeller(exp1)
-    mostrar_estado("Expeller P1", round(exp1,1), est, col)
+estado,color = sem_pesaje(pesaje)
 
-with c11:
-    est,col = sem_expeller(exp2)
-    mostrar_estado("Expeller P2", round(exp2,1), est, col)
+tarjeta(
+    "PESAJE",
+    f"{pesaje:.1f} tn/h",
+    estado,
+    color
+)
 
-with c12:
-    est,col = sem_expeller(exp3)
-    mostrar_estado("Expeller P3", round(exp3,1), est, col)
+# ======================================
+# ENFRIADOR
+# ======================================
 
-# -------------------------------
-# FILA 5
-# -------------------------------
+st.header("♨️ Enfriador")
 
-c13,c14 = st.columns(2)
+estado,color = sem_gases(gases)
 
-with c13:
-    est,col = sem_pesaje(pesaje)
-    mostrar_estado("Pesaje tn/h", round(pesaje,1), est, col)
-
-with c14:
-    est,col = sem_gases(gases)
-    mostrar_estado("Temp. Gases", round(gases,1), est, col)
-
-# ALERTA ESPECIAL GASES
+tarjeta(
+    "TEMP. GASES",
+    f"{gases:.1f} °C",
+    estado,
+    color
+)
 
 if gases > 80:
     st.error(
-        "⚠ TEMPERATURA DE GASES DE ENFRIADOR MAYOR A 80°C - REVISAR ENFRIADOR"
+        "⚠ TEMPERATURA DE GASES MAYOR A 80°C - REVISAR ENFRIADOR"
     )
+
 # ======================================
-# ÚLTIMOS REGISTROS
+# ULTIMOS REGISTROS
 # ======================================
 
 st.subheader("📋 Últimos Registros")
