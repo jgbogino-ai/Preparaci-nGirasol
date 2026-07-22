@@ -97,15 +97,28 @@ else:
 # OPERADORES
 # ======================================
 
-st.subheader("👷 Participación por operador")
+st.subheader("👷 Participación por operador (desde 01/07/2026)")
+
+
+
+# Filtrar operadores desde 01/07/2026
+
+df["Marca temporal"] = pd.to_datetime(
+    df["Marca temporal"],
+    dayfirst=True,
+    errors="coerce"
+)
+
+df_operadores = df[
+    df["Marca temporal"] >= pd.Timestamp("2026-07-01")
+]
 
 operadores = (
-    df.groupby("Operador")
+    df_operadores.groupby("Operador")
     .size()
     .reset_index(name="Registros")
     .sort_values("Registros", ascending=False)
 )
-
 fig = px.pie(
     operadores,
     values="Registros",
