@@ -173,7 +173,211 @@ st.plotly_chart(
     fig3,
     use_container_width=True
 )
+# ======================================
+# SEMÁFOROS COMPLETOS DEL PROCESO
+# ======================================
 
+st.subheader("🟢🟡🔴 Estado del Proceso")
+
+def mostrar_estado(nombre, valor, estado, color):
+    st.markdown(
+        f"""
+        <div style="
+        padding:10px;
+        border-radius:10px;
+        margin:5px;
+        background-color:{color};
+        color:white;
+        font-weight:bold;">
+        {nombre}: {valor} → {estado}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# -------------------------------
+# FUNCIONES DE SEMÁFORO
+# -------------------------------
+
+def sem_lamina(v):
+    return ("🟢 VERDE","green") if v <= 0.9 else ("🔴 ROJO","red")
+
+def sem_prensa12(v):
+    if v < 140:
+        return ("🔴 ROJO","red")
+    elif v <= 150:
+        return ("🟡 AMARILLO","orange")
+    else:
+        return ("🟢 VERDE","green")
+
+def sem_prensa3(v):
+    if v < 60:
+        return ("🔴 ROJO","red")
+    elif v <= 70:
+        return ("🟡 AMARILLO","orange")
+    else:
+        return ("🟢 VERDE","green")
+
+def sem_cocina1(v):
+    return ("🟢 VERDE","green") if 111 <= v <= 114 else ("🔴 ROJO","red")
+
+def sem_cocina2(v):
+    return ("🟢 VERDE","green") if 104 <= v <= 110 else ("🔴 ROJO","red")
+
+def sem_hum_entrada(v):
+    if v < 9:
+        return ("🟢 VERDE","green")
+    elif v <= 10:
+        return ("🟡 AMARILLO","orange")
+    else:
+        return ("🔴 ROJO","red")
+
+def sem_hum_salida(v):
+    return ("🟢 VERDE","green") if 6 <= v <= 8 else ("🔴 ROJO","red")
+
+def sem_pesaje(v):
+    if v < 15:
+        return ("🔴 ROJO","red")
+    elif v <= 16:
+        return ("🟡 AMARILLO","orange")
+    else:
+        return ("🟢 VERDE","green")
+
+def sem_expeller(v):
+    if v < 12:
+        return ("🔴 ROJO","red")
+    elif v < 14:
+        return ("🟡 AMARILLO","orange")
+    elif v <= 16:
+        return ("🟢 VERDE","green")
+    else:
+        return ("🔴 ROJO","red")
+
+def sem_gases(v):
+    if v > 80:
+        return ("🔴 ROJO","red")
+    elif v >= 70:
+        return ("🟡 AMARILLO","orange")
+    else:
+        return ("🟢 VERDE","green")
+
+# -------------------------------
+# LECTURA DE VARIABLES
+# -------------------------------
+
+lam_der_prensas = float(ultimo["Espesor lámina derecha (0,xx) MOLINO LADO PRENSAS"])
+lam_izq_prensas = float(ultimo["Espesor lámina izquierda (0,xx) MOLINO LADO PRENSAS"])
+
+corr1 = float(ultimo["Corriente (AMP) PRENSA 1"])
+corr2 = float(ultimo["Corriente (AMP) PRENSA 2"])
+corr3 = float(ultimo["Corriente (AMP) PRENSA 3"])
+
+coc1 = float(ultimo["Temperatura (°C) COCINA 1"])
+coc2 = float(ultimo["Temperatura (°C) COCINA 2"])
+
+hum_ent = float(ultimo["Humedad de entrada secadora (%)"])
+hum_sal = float(ultimo["Humedad salida secadora (%)"])
+
+pesaje = float(ultimo["Pesaje de balanza (tn/h)"])
+
+exp1 = float(ultimo["Espesor expeller (mm) PRENSA 1"])
+exp2 = float(ultimo["Espesor expeller (mm) PRENSA 2"])
+exp3 = float(ultimo["Espesor expeller (mm) PRENSA 3"])
+
+gases = float(ultimo["TEMPERATURA DE GASES DE ENFRIADOR"])
+
+# -------------------------------
+# FILA 1
+# -------------------------------
+
+c1,c2,c3 = st.columns(3)
+
+with c1:
+    est,col = sem_lamina(lam_der_prensas)
+    mostrar_estado("Lámina Der.", round(lam_der_prensas,2), est, col)
+
+with c2:
+    est,col = sem_lamina(lam_izq_prensas)
+    mostrar_estado("Lámina Izq.", round(lam_izq_prensas,2), est, col)
+
+with c3:
+    est,col = sem_cocina1(coc1)
+    mostrar_estado("Cocina 1", round(coc1,1), est, col)
+
+# -------------------------------
+# FILA 2
+# -------------------------------
+
+c4,c5,c6 = st.columns(3)
+
+with c4:
+    est,col = sem_cocina2(coc2)
+    mostrar_estado("Cocina 2", round(coc2,1), est, col)
+
+with c5:
+    est,col = sem_hum_entrada(hum_ent)
+    mostrar_estado("Humedad Entrada", round(hum_ent,1), est, col)
+
+with c6:
+    est,col = sem_hum_salida(hum_sal)
+    mostrar_estado("Humedad Salida", round(hum_sal,1), est, col)
+
+# -------------------------------
+# FILA 3
+# -------------------------------
+
+c7,c8,c9 = st.columns(3)
+
+with c7:
+    est,col = sem_prensa12(corr1)
+    mostrar_estado("Prensa 1", round(corr1,0), est, col)
+
+with c8:
+    est,col = sem_prensa12(corr2)
+    mostrar_estado("Prensa 2", round(corr2,0), est, col)
+
+with c9:
+    est,col = sem_prensa3(corr3)
+    mostrar_estado("Prensa 3", round(corr3,0), est, col)
+
+# -------------------------------
+# FILA 4
+# -------------------------------
+
+c10,c11,c12 = st.columns(3)
+
+with c10:
+    est,col = sem_expeller(exp1)
+    mostrar_estado("Expeller P1", round(exp1,1), est, col)
+
+with c11:
+    est,col = sem_expeller(exp2)
+    mostrar_estado("Expeller P2", round(exp2,1), est, col)
+
+with c12:
+    est,col = sem_expeller(exp3)
+    mostrar_estado("Expeller P3", round(exp3,1), est, col)
+
+# -------------------------------
+# FILA 5
+# -------------------------------
+
+c13,c14 = st.columns(2)
+
+with c13:
+    est,col = sem_pesaje(pesaje)
+    mostrar_estado("Pesaje tn/h", round(pesaje,1), est, col)
+
+with c14:
+    est,col = sem_gases(gases)
+    mostrar_estado("Temp. Gases", round(gases,1), est, col)
+
+# ALERTA ESPECIAL GASES
+
+if gases > 80:
+    st.error(
+        "⚠ TEMPERATURA DE GASES DE ENFRIADOR MAYOR A 80°C - REVISAR ENFRIADOR"
+    )
 # ======================================
 # ÚLTIMOS REGISTROS
 # ======================================
