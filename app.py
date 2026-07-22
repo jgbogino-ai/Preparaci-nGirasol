@@ -121,10 +121,7 @@ fig = px.pie(
     hole=0.45
 )
 
-st.plotly_chart(
-    fig,
-    use_container_width=True
-)
+
 
 
 
