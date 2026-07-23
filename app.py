@@ -385,14 +385,14 @@ if gases > 80:
 # ULTIMAS 5 CARGAS
 # ======================================
 
-st.subheader("📋 Últimas 5 cargas realizadas")
+st.subheader("📋 Últimas 10 cargas realizadas")
 
 try:
 
     registros = df[[
         "Marca temporal",
         "Operador"
-    ]].tail(5)
+    ]].tail(10)
 
     registros = registros.sort_values(
         by="Marca temporal",
