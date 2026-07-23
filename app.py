@@ -37,9 +37,18 @@ ahora = pd.Timestamp.now(tz=None)
 
 fecha_ultima = pd.Timestamp(fecha_ultima).tz_localize(None)
 
+from datetime import datetime, timedelta
+
+ahora = pd.Timestamp.now() - pd.Timedelta(hours=3)
+
 horas_sin_carga = (
     ahora - fecha_ultima
 ).total_seconds() / 3600
+
+st.write("Hora servidor:", pd.Timestamp.now())
+st.write("Hora corregida:", ahora)
+st.write("Última carga:", fecha_ultima)
+st.write("Horas sin carga:", round(horas_sin_carga, 2))
 
 if horas_sin_carga > 2:
 
