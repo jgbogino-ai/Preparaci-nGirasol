@@ -33,8 +33,12 @@ operador_ultimo = ultima_carga["Operador"]
 
 supervisor_ultimo = ultima_carga["Supervisor"]
 
+ahora = pd.Timestamp.now(tz=None)
+
+fecha_ultima = pd.Timestamp(fecha_ultima).tz_localize(None)
+
 horas_sin_carga = (
-    pd.Timestamp.now() - fecha_ultima
+    ahora - fecha_ultima
 ).total_seconds() / 3600
 
 if horas_sin_carga > 2:
