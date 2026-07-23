@@ -2,10 +2,6 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-# ==================================================
-# CONFIGURACION
-# ==================================================
-
 URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQAJcBxFTNaLQ6cpo7rMLhYSbqpGks79AztDgPULIobXyB1gHMyZI7TOVJg2zm62PJq7CQlN7pMie2N/pub?output=csv"
 
 st.set_page_config(
@@ -14,10 +10,6 @@ st.set_page_config(
     layout="wide"
 )
 
-# ==================================================
-# CARGA DE DATOS
-# ==================================================
-
 @st.cache_data(ttl=300)
 def cargar_datos():
     return pd.read_csv(URL)
@@ -25,73 +17,22 @@ def cargar_datos():
 df = cargar_datos()
 df.columns = df.columns.str.strip()
 
-df["Marca temporal"] = pd.to_datetime(
-    df["Marca temporal"],
-    dayfirst=True,
-    errors="coerce"
-)
+st.title("🌻 Dashboard Preparación de Girasol")
 
-df = df.sort_values("Marca temporal")
+# ======================================
+# Último registro
+# ======================================
 
 ultimo = df.iloc[-1]
-
-# ==================================================
-# ULTIMA CARGA
-# ==================================================
-
-fecha_ultima_carga = ultimo["Marca temporal"]
-
-ahora = pd.Timestamp.now()
-
-horas_sin_carga = (
-    ahora - fecha_ultima_carga
-).total_seconds() / 3600
-
-# ==================================================
-# VARIABLES PRINCIPALES
-# ==================================================
 
 hum_entrada = float(ultimo["Humedad de entrada secadora (%)"])
 hum_salida = float(ultimo["Humedad salida secadora (%)"])
 pesaje = float(ultimo["Pesaje de balanza (tn/h)"])
 temp_gases = float(ultimo["TEMPERATURA DE GASES DE ENFRIADOR"])
 
-st.title("🌻 Dashboard Preparación de Girasol")
-
-# ==================================================
-# TARJETA ULTIMA CARGA
-# ==================================================
-
-if horas_sin_carga > 2:
-    color_carga = "#d32f2f"
-    estado_carga = "🔴 ATRASADA"
-else:
-    color_carga = "#2e7d32"
-    estado_carga = "🟢 EN TIEMPO"
-
-st.markdown(
-    f"""
-    <div style="
-        background-color:{color_carga};
-        padding:20px;
-        border-radius:15px;
-        color:white;
-        text-align:center;
-        margin-bottom:20px;
-    ">
-        <h2>⏰ Última carga realizada</h2>
-        <h3>{fecha_ultima_carga.strftime('%d/%m/%Y')}</h3>
-        <h3>Hora: {fecha_ultima_carga.strftime('%H:%M')}</h3>
-        <h3>{estado_carga}</h3>
-        <h3>{horas_sin_carga:.1f} horas desde la última carga</h3>
-    </div>
-    """,
-    unsafe_allow_html=True
-)
-
-# ==================================================
+# ======================================
 # ALERTAS
-# ==================================================
+# ======================================
 
 alertas = []
 
@@ -102,245 +43,66 @@ if hum_entrada > 10:
     alertas.append("🔴 Humedad entrada alta")
 
 if temp_gases > 80:
-    alertas.append("🔴 Temperatura de gases mayor a 80°C")
+    alertas.append("🔴 Temperatura de gases > 80°C")
 
-# ==================================================
+# ======================================
 # ESTADO GENERAL
-# ==================================================
+# ======================================
 
 st.markdown("# Estado Planta: 🟢 NORMAL")
 
-# ==================================================
+# ======================================
 # KPI
-# ==================================================
+# ======================================
+# Advertencia Humedad de Salida
 
 if hum_salida < 6 or hum_salida > 8:
     st.error(
         f"⚠ Humedad Salida Secadora fuera de rango: {hum_salida:.1f}%"
     )
-
 c1, c2, c3, c4 = st.columns(4)
 
-c1.metric("Producción tn/h", round(pesaje, 2))
-c2.metric("Humedad Entrada %", round(hum_entrada, 2))
-c3.metric("Humedad Salida %", round(hum_salida, 2))
-c4.metric("Temp. Gases °C", round(temp_gases, 2))
-
-# ==================================================
-# FUNCIONES SEMAFOROS
-# ==================================================
-
-def sem_lamina(v):
-    return ("🟢 VERDE", "green") if v <= 0.9 else ("🔴 ROJO", "red")
-
-def sem_prensa12(v):
-    if v < 140:
-        return ("🔴 ROJO", "red")
-    elif v <= 150:
-        return ("🟡 AMARILLO", "orange")
-    return ("🟢 VERDE", "green")
-
-def sem_prensa3(v):
-    if v < 60:
-        return ("🔴 ROJO", "red")
-    elif v <= 70:
-        return ("🟡 AMARILLO", "orange")
-    return ("🟢 VERDE", "green")
-
-def sem_cocina1(v):
-    return ("🟢 VERDE", "green") if 111 <= v <= 114 else ("🔴 ROJO", "red")
-
-def sem_cocina2(v):
-    return ("🟢 VERDE", "green") if 104 <= v <= 110 else ("🔴 ROJO", "red")
-
-def sem_hum_entrada(v):
-    if v < 9:
-        return ("🟢 VERDE", "green")
-    elif v <= 10:
-        return ("🟡 AMARILLO", "orange")
-    return ("🔴 ROJO", "red")
-
-def sem_hum_salida(v):
-    return ("🟢 VERDE", "green") if 6 <= v <= 8 else ("🔴 ROJO", "red")
-
-def sem_pesaje(v):
-    if v < 15:
-        return ("🔴 ROJO", "red")
-    elif v <= 16:
-        return ("🟡 AMARILLO", "orange")
-    return ("🟢 VERDE", "green")
-
-def sem_gases(v):
-    if v > 80:
-        return ("🔴 ROJO", "red")
-    elif v >= 70:
-        return ("🟡 AMARILLO", "orange")
-    return ("🟢 VERDE", "green")
-
-# ==================================================
-# VARIABLES
-# ==================================================
-
-corr1 = float(ultimo["Corriente (AMP) PRENSA 1"])
-corr2 = float(ultimo["Corriente (AMP) PRENSA 2"])
-corr3 = float(ultimo["Corriente (AMP) PRENSA 3"])
-
-coc1 = float(ultimo["Temperatura (°C) COCINA 1"])
-coc2 = float(ultimo["Temperatura (°C) COCINA 2"])
-
-lam_der = float(
-    ultimo["Espesor lámina derecha (0,xx) MOLINO LADO PRENSAS"]
+c1.metric(
+    "Producción tn/h",
+    round(pesaje, 2)
 )
 
-lam_izq = float(
-    ultimo["Espesor lámina izquierda (0,xx) MOLINO LADO PRENSAS"]
+c2.metric(
+    "Humedad Entrada %",
+    round(hum_entrada, 2)
 )
 
-gases = float(
-    ultimo["TEMPERATURA DE GASES DE ENFRIADOR"]
+c3.metric(
+    "Humedad Salida %",
+    round(hum_salida, 2)
 )
 
-# ==================================================
-# TARJETA
-# ==================================================
-
-def tarjeta(titulo, valor, estado, color):
-    st.markdown(
-        f"""
-        <div style="
-        background-color:{color};
-        border-radius:15px;
-        padding:15px;
-        margin:5px;
-        text-align:center;
-        color:white;">
-        <h3>{titulo}</h3>
-        <h1>{valor}</h1>
-        <h3>{estado}</h3>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
-# ==================================================
-# PRENSAS
-# ==================================================
-
-st.header("🔧 Prensas")
-
-c1, c2, c3 = st.columns(3)
-
-estado, color = sem_prensa12(corr1)
-with c1:
-    tarjeta("PRENSA 1", f"{corr1:.0f} A", estado, color)
-
-estado, color = sem_prensa12(corr2)
-with c2:
-    tarjeta("PRENSA 2", f"{corr2:.0f} A", estado, color)
-
-estado, color = sem_prensa3(corr3)
-with c3:
-    tarjeta("PRENSA 3", f"{corr3:.0f} A", estado, color)
-
-# ==================================================
-# COCINAS
-# ==================================================
-
-st.header("🍳 Cocinas")
-
-c4, c5 = st.columns(2)
-
-estado, color = sem_cocina1(coc1)
-with c4:
-    tarjeta("COCINA 1", f"{coc1:.1f} °C", estado, color)
-
-estado, color = sem_cocina2(coc2)
-with c5:
-    tarjeta("COCINA 2", f"{coc2:.1f} °C", estado, color)
-
-# ==================================================
-# LAMINADORES
-# ==================================================
-
-st.header("📏 Laminadores")
-
-c6, c7 = st.columns(2)
-
-estado, color = sem_lamina(lam_der)
-with c6:
-    tarjeta("LAMINA DERECHA", f"{lam_der:.2f} mm", estado, color)
-
-estado, color = sem_lamina(lam_izq)
-with c7:
-    tarjeta("LAMINA IZQUIERDA", f"{lam_izq:.2f} mm", estado, color)
-
-# ==================================================
-# HUMEDADES
-# ==================================================
-
-st.header("💧 Humedades")
-
-c8, c9 = st.columns(2)
-
-estado, color = sem_hum_entrada(hum_entrada)
-with c8:
-    tarjeta("ENTRADA SECADORA", f"{hum_entrada:.1f} %", estado, color)
-
-estado, color = sem_hum_salida(hum_salida)
-with c9:
-    tarjeta("SALIDA SECADORA", f"{hum_salida:.1f} %", estado, color)
-
-# ==================================================
-# PRODUCCION
-# ==================================================
-
-st.header("📦 Producción")
-
-estado, color = sem_pesaje(pesaje)
-
-tarjeta(
-    "PESAJE",
-    f"{pesaje:.1f} tn/h",
-    estado,
-    color
+c4.metric(
+    "Temp. Gases °C",
+    round(temp_gases, 2)
 )
 
-# ==================================================
-# ENFRIADOR
-# ==================================================
+# ======================================
+# ALERTAS ACTIVAS
+# ======================================
 
-st.header("♨️ Enfriador")
 
-estado, color = sem_gases(gases)
 
-tarjeta(
-    "TEMP. GASES",
-    f"{gases:.1f} °C",
-    estado,
-    color
+# ======================================
+# OPERADORES
+# ======================================
+
+st.subheader("👷 Participación por operador (desde 01/07/2026)")
+
+
+
+# Filtrar operadores desde 01/07/2026
+
+df["Marca temporal"] = pd.to_datetime(
+    df["Marca temporal"],
+    dayfirst=True,
+    errors="coerce"
 )
-
-if gases > 80:
-    st.error(
-        "⚠ TEMPERATURA DE GASES MAYOR A 80°C - REVISAR ENFRIADOR"
-    )
-
-# ==================================================
-# ULTIMOS REGISTROS
-# ==================================================
-
-st.subheader("📋 Últimos Registros")
-
-st.dataframe(
-    df.tail(20),
-    use_container_width=True
-)
-
-# ==================================================
-# PARTICIPACION POR OPERADOR
-# ==================================================
-
-st.header("👷 Participación por Operador")
 
 df_operadores = df[
     df["Marca temporal"] >= pd.Timestamp("2026-07-01")
@@ -352,6 +114,24 @@ operadores = (
     .reset_index(name="Registros")
     .sort_values("Registros", ascending=False)
 )
+fig = px.pie(
+    operadores,
+    values="Registros",
+    names="Operador",
+    hole=0.45
+)
+
+st.plotly_chart(
+    fig,
+    use_container_width=True
+)
+
+
+
+
+# ======================================
+# TORTA OPERADORES
+# ======================================
 
 fig = px.pie(
     operadores,
@@ -360,149 +140,72 @@ fig = px.pie(
     hole=0.55
 )
 
-fig.update_layout(height=500)
+fig.update_layout(
+    width=450,
+    height=350,
+    margin=dict(l=10,r=10,t=20,b=10)
+)
 
 st.plotly_chart(
     fig,
-    use_container_width=True
+    use_container_width=False
 )
-    # ======================================
-    # ESTADO GENERAL
-    # ======================================
-    
-    st.markdown("# Estado Planta: 🟢 NORMAL")
-    
-    # ======================================
-    # KPI
-    # ======================================
-    # Advertencia Humedad de Salida
-    
-    if hum_salida < 6 or hum_salida > 8:
-        st.error(
-            f"⚠ Humedad Salida Secadora fuera de rango: {hum_salida:.1f}%"
-        )
-    c1, c2, c3, c4 = st.columns(4)
-    
-    c1.metric(
-        "Producción tn/h",
-        round(pesaje, 2)
-    )
-    
-    c2.metric(
-        "Humedad Entrada %",
-        round(hum_entrada, 2)
-    )
-    
-    c3.metric(
-        "Humedad Salida %",
-        round(hum_salida, 2)
-    )
-    
-    c4.metric(
-        "Temp. Gases °C",
-        round(temp_gases, 2)
-    )
-    
-    # ======================================
-    # ALERTAS ACTIVAS
-    # ======================================
-    
-    
-    
-    
-    
-    
-    
-    
-    # Filtrar operadores desde 01/07/2026
-    
-    df["Marca temporal"] = pd.to_datetime(
-        df["Marca temporal"],
-        dayfirst=True,
-        errors="coerce"
-    )
-    
-    
-    
-    
-   
-    
-    fig = px.pie(
-        operadores,
-        values="Registros",
-        names="Operador",
-        hole=0.45
-    )
-    
-    
-    
-    
-    
-    # ======================================
-    # TORTA OPERADORES
-    # ======================================
-    
-   
-    
-    
-    
-   
-    
-    # ======================================
-    # FUNCIONES SEMAFOROS
-    # ======================================
-    
-    def sem_lamina(v):
-        return ("🟢 VERDE","green") if v <= 0.9 else ("🔴 ROJO","red")
-    
-    def sem_prensa12(v):
-        if v < 140:
-            return ("🔴 ROJO","red")
-        elif v <= 150:
-            return ("🟡 AMARILLO","orange")
-        else:
-            return ("🟢 VERDE","green")
-    
-    def sem_prensa3(v):
-        if v < 60:
-            return ("🔴 ROJO","red")
-        elif v <= 70:
-            return ("🟡 AMARILLO","orange")
-        else:
-            return ("🟢 VERDE","green")
-    
-    def sem_cocina1(v):
-        return ("🟢 VERDE","green") if 111 <= v <= 114 else ("🔴 ROJO","red")
-    
-    def sem_cocina2(v):
-        return ("🟢 VERDE","green") if 104 <= v <= 110 else ("🔴 ROJO","red")
-    
-    def sem_hum_entrada(v):
-        if v < 9:
-            return ("🟢 VERDE","green")
-        elif v <= 10:
-            return ("🟡 AMARILLO","orange")
-        else:
-            return ("🔴 ROJO","red")
-    
-    def sem_hum_salida(v):
-        return ("🟢 VERDE","green") if 6 <= v <= 8 else ("🔴 ROJO","red")
-    
-    def sem_pesaje(v):
-        if v < 15:
-            return ("🔴 ROJO","red")
-        elif v <= 16:
-            return ("🟡 AMARILLO","orange")
-        else:
-            return ("🟢 VERDE","green")
-    
-    def sem_gases(v):
-        if v > 80:
-            return ("🔴 ROJO","red")
-        elif v >= 70:
-            return ("🟡 AMARILLO","orange")
-        else:
-            return ("🟢 VERDE","green")
+
+# ======================================
+# FUNCIONES SEMAFOROS
+# ======================================
+
+def sem_lamina(v):
+    return ("🟢 VERDE","green") if v <= 0.9 else ("🔴 ROJO","red")
+
+def sem_prensa12(v):
+    if v < 140:
+        return ("🔴 ROJO","red")
+    elif v <= 150:
+        return ("🟡 AMARILLO","orange")
+    else:
+        return ("🟢 VERDE","green")
+
+def sem_prensa3(v):
+    if v < 60:
+        return ("🔴 ROJO","red")
+    elif v <= 70:
+        return ("🟡 AMARILLO","orange")
+    else:
+        return ("🟢 VERDE","green")
+
+def sem_cocina1(v):
+    return ("🟢 VERDE","green") if 111 <= v <= 114 else ("🔴 ROJO","red")
+
+def sem_cocina2(v):
+    return ("🟢 VERDE","green") if 104 <= v <= 110 else ("🔴 ROJO","red")
+
+def sem_hum_entrada(v):
+    if v < 9:
+        return ("🟢 VERDE","green")
+    elif v <= 10:
+        return ("🟡 AMARILLO","orange")
+    else:
+        return ("🔴 ROJO","red")
+
+def sem_hum_salida(v):
+    return ("🟢 VERDE","green") if 6 <= v <= 8 else ("🔴 ROJO","red")
+
+def sem_pesaje(v):
+    if v < 15:
+        return ("🔴 ROJO","red")
+    elif v <= 16:
+        return ("🟡 AMARILLO","orange")
+    else:
+        return ("🟢 VERDE","green")
+
+def sem_gases(v):
+    if v > 80:
+        return ("🔴 ROJO","red")
+    elif v >= 70:
+        return ("🟡 AMARILLO","orange")
+    else:
+        return ("🟢 VERDE","green")
 
 # ======================================
 # VARIABLES
