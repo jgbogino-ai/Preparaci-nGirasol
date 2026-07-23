@@ -16,7 +16,7 @@ def cargar_datos():
 df = cargar_datos()
 df.columns = df.columns.str.strip()
 
-st.title("🌻 Dashboard Preparación de Girasol")
+st.title(" Preparación de Girasol")
 df["Marca temporal"] = pd.to_datetime(
     df["Marca temporal"],
     dayfirst=True,
