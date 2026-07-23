@@ -374,6 +374,6 @@ df_mostrar = df.copy()
 
 
 st.dataframe(
-    df.tail(20).astype(str)
+    df.tail(20).astype(str),
     use_container_width=True
 )
