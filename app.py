@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 
-URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQAJcBxFTNaLQ6cpo7rMLhYSbqpGks79AztDgPULIobXyB1gHMyZI7TOVJg2zm62PJq7CQlN7pMie2N/pub?output=csv"
+URL = "<a href="https://docs.google.com/....
 
 st.set_page_config(
     page_title="Preparación de Girasol",
@@ -18,7 +18,58 @@ df = cargar_datos()
 df.columns = df.columns.str.strip()
 
 st.title("🌻 Dashboard Preparación de Girasol")
+df["Marca temporal"] = pd.to_datetime(
+    df["Marca temporal"],
+    dayfirst=True,
+    errors="coerce"
+)
 
+df = df.sort_values("Marca temporal")
+
+ultima_carga = df.iloc[-1]
+
+fecha_ultima = ultima_carga["Marca temporal"]
+
+operador_ultimo = ultima_carga["Operador"]
+
+supervisor_ultimo = ultima_carga["Supervisor"]
+
+horas_sin_carga = (
+    pd.Timestamp.now() - fecha_ultima
+).total_seconds() / 3600
+
+if horas_sin_carga > 2:
+
+    st.error(
+        f"""
+🚨 ALERTA DE CARGA
+
+Operador: {operador_ultimo}
+
+Supervisor: {supervisor_ultimo}
+
+Última carga:
+{fecha_ultima.strftime('%d/%m/%Y %H:%M')}
+
+Han transcurrido
+{horas_sin_carga:.1f} horas sin registros.
+"""
+    )
+
+else:
+
+    st.success(
+        f"""
+✅ Última carga registrada
+
+Operador: {operador_ultimo}
+
+Supervisor: {supervisor_ultimo}
+
+Fecha:
+{fecha_ultima.strftime('%d/%m/%Y %H:%M')}
+"""
+    )
 # ======================================
 # Último registro
 # ======================================
@@ -88,68 +139,6 @@ c4.metric(
 
 
 
-# ======================================
-# OPERADORES
-# ======================================
-
-st.subheader("👷 Participación por operador (desde 01/07/2026)")
-
-
-
-# Filtrar operadores desde 01/07/2026
-
-df["Marca temporal"] = pd.to_datetime(
-    df["Marca temporal"],
-    dayfirst=True,
-    errors="coerce"
-)
-
-df_operadores = df[
-    df["Marca temporal"] >= pd.Timestamp("2026-07-01")
-]
-
-operadores = (
-    df_operadores.groupby("Operador")
-    .size()
-    .reset_index(name="Registros")
-    .sort_values("Registros", ascending=False)
-)
-fig = px.pie(
-    operadores,
-    values="Registros",
-    names="Operador",
-    hole=0.45
-)
-
-st.plotly_chart(
-    fig,
-    use_container_width=True
-)
-
-
-
-
-# ======================================
-# TORTA OPERADORES
-# ======================================
-
-fig = px.pie(
-    operadores,
-    values="Registros",
-    names="Operador",
-    hole=0.55
-)
-
-fig.update_layout(
-    width=450,
-    height=350,
-    margin=dict(l=10,r=10,t=20,b=10)
-)
-
-st.plotly_chart(
-    fig,
-    use_container_width=False
-)
 
 # ======================================
 # FUNCIONES SEMAFOROS
@@ -242,24 +231,7 @@ gases = float(
 # FUNCION TARJETA
 # ======================================
 
-def tarjeta(titulo, valor, estado, color):
-
-    st.markdown(
-        f"""
-        <div style="
-        background-color:{color};
-        border-radius:15px;
-        padding:15px;
-        margin:5px;
-        text-align:center;
-        color:white;">
-        <h3>{titulo}</h3>
-        <h1>{valor}</h1>
-        <h3>{estado}</h3>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
+&lt;
 
 # ======================================
 # PRENSAS
@@ -385,23 +357,28 @@ if gases > 80:
 # ULTIMAS 5 CARGAS
 # ======================================
 
-st.subheader("📋 Últimas 10 cargas realizadas")
+st.subheader("📋 Últimas 15 cargas realizadas")
 
 try:
 
-    registros = df[[
-        "Marca temporal",
-        "Operador"
-    ]].tail(10)
+    registros = df[
+        [
+            "Marca temporal",
+            "Operador",
+            "Supervisor"
+        ]
+    ].tail(15)
 
     registros = registros.sort_values(
         by="Marca temporal",
         ascending=False
     )
 
-    registros["Marca temporal"] = pd.to_datetime(
-        registros["Marca temporal"]
-    ).dt.strftime("%d/%m/%Y %H:%M")
+    registros["Marca temporal"] = (
+        pd.to_datetime(
+            registros["Marca temporal"]
+        ).dt.strftime("%d/%m/%Y %H:%M")
+    )
 
     st.table(registros)
 
@@ -409,3 +386,35 @@ except Exception as e:
 
     st.error(f"Error al mostrar registros: {e}")
 
+# ======================================
+# PARTICIPACION POR OPERADOR
+# ======================================
+
+st.header("👷 Participación por Operador")
+
+df_operadores = (
+    df.groupby("Operador")
+    .size()
+    .reset_index(name="Registros")
+)
+
+fig = px.pie(
+    df_operadores,
+    values="Registros",
+    names="Operador",
+    hole=0.55
+)
+
+fig.update_traces(
+    textposition="inside",
+    textinfo="percent+label"
+)
+
+fig.update_layout(
+    height=650
+)
+
+st.plotly_chart(
+    fig,
+    use_container_width=True
+)
