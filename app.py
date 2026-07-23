@@ -113,7 +113,7 @@ if temp_gases > 80:
 # ESTADO GENERAL
 # ======================================
 
-st.markdown("# Estado Planta: 🟢 NORMAL")
+#st.markdown("# Estado Planta: 🟢 NORMAL")
 
 # ======================================
 # KPI
