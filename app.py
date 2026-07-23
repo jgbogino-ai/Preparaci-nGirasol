@@ -46,7 +46,7 @@ horas_sin_carga = (
 ).total_seconds() / 3600
 
 #st.write("Hora servidor:", pd.Timestamp.now())
-st.write("Hora:", ahora)
+st.write(ahora.strftime("%H:%M"))
 #st.write("Última carga:", fecha_ultima)
 #st.write("Horas sin carga:", round(horas_sin_carga, 2))
 
