@@ -368,12 +368,12 @@ if gases > 80:
 # ULTIMOS REGISTROS
 # ======================================
 
-st.subheader("📋 Últimos Registros")
+#st.subheader("📋 Últimos Registros")
 
-df_mostrar = df.copy()
+#df_mostrar = df.copy()
 
 
-st.dataframe(
-    df.tail(20).astype(str),
-    use_container_width=True
-)
+#st.dataframe(
+#    df.tail(20).astype(str),
+#   use_container_width=True
+#)
