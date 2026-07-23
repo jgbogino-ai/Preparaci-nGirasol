@@ -39,36 +39,62 @@ horas_sin_carga = (
 
 if horas_sin_carga > 2:
 
-    st.error(
+    st.markdown(
         f"""
-🚨 ALERTA DE CARGA
+        <div style="
+            background:#b71c1c;
+            color:white;
+            padding:15px;
+            border-radius:12px;
+            text-align:center;
+            margin-bottom:20px;
+        ">
+            <h2>🚨 ALERTA DE CARGA</h2>
 
-Operador: {operador_ultimo}
+            <h3>Operador: {operador_ultimo}</h3>
 
-Supervisor: {supervisor_ultimo}
+            <h3>Supervisor: {supervisor_ultimo}</h3>
 
-Última carga:
-{fecha_ultima.strftime('%d/%m/%Y %H:%M')}
+            <h3>
+            Última carga:
+            {fecha_ultima.strftime('%d/%m/%Y %H:%M')}
+            </h3>
 
-Han transcurrido
-{horas_sin_carga:.1f} horas sin registros.
-"""
+            <h2>
+            {horas_sin_carga:.1f} horas sin registros
+            </h2>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
 
 else:
 
-    st.success(
+    st.markdown(
         f"""
-✅ Última carga registrada
+        <div style="
+            background:#1b5e20;
+            color:white;
+            padding:15px;
+            border-radius:12px;
+            text-align:center;
+            margin-bottom:20px;
+        ">
+            <h2>✅ ÚLTIMA CARGA REGISTRADA</h2>
 
-Operador: {operador_ultimo}
+            <h3>Operador: {operador_ultimo}</h3>
 
-Supervisor: {supervisor_ultimo}
+            <h3>Supervisor: {supervisor_ultimo}</h3>
 
-Fecha:
-{fecha_ultima.strftime('%d/%m/%Y %H:%M')}
-"""
+            <h3>
+            {fecha_ultima.strftime('%d/%m/%Y %H:%M')}
+            </h3>
+        </div>
+        """,
+        unsafe_allow_html=True
     )
+
+
 # ======================================
 # Último registro
 # ======================================
@@ -237,13 +263,13 @@ def tarjeta(titulo, valor, estado, color):
         <div style="
         background-color:{color};
         border-radius:15px;
-        padding:15px;
+        padding:6px;
         margin:5px;
         text-align:center;
         color:white;">
         <h3>{titulo}</h3>
-        <h1>{valor}</h1>
-        <h3>{estado}</h3>
+        <h2>{valor}</h2>
+        <h4>{titulo}</h4>
         </div>
         """,
         unsafe_allow_html=True
