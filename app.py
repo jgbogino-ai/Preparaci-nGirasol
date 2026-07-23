@@ -230,7 +230,24 @@ gases = float(
 # FUNCION TARJETA
 # ======================================
 
+def tarjeta(titulo, valor, estado, color):
 
+    st.markdown(
+        f"""
+        <div style="
+        background-color:{color};
+        border-radius:15px;
+        padding:15px;
+        margin:5px;
+        text-align:center;
+        color:white;">
+        <h3>{titulo}</h3>
+        <h1>{valor}</h1>
+        <h3>{estado}</h3>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 # ======================================
 # PRENSAS
 # ======================================
