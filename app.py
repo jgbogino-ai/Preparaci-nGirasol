@@ -381,19 +381,21 @@ if gases > 80:
 # ULTIMOS REGISTROS
 # ======================================
 
-st.subheader("📋 Últimos Registros")
+# ======================================
+# ULTIMOS REGISTROS
+# ======================================
+
+st.subheader("📋 Últimos 5 Registros")
 
 try:
 
-    df_vista = df.tail(20).copy()
+    ultimos_5 = df.tail(5).copy()
 
-    for col in df_vista.columns:
-        df_vista[col] = df_vista[col].astype(str)
+    for col in ultimos_5.columns:
+        ultimos_5[col] = ultimos_5[col].astype(str)
 
-    st.table(df_vista)
+    st.table(ultimos_5)
 
 except Exception as e:
 
-    st.warning(
-        "No fue posible mostrar los últimos registros."
-    )
+    st.error(f"Error al mostrar registros: {e}")
