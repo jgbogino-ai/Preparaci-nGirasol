@@ -407,10 +407,15 @@ except Exception as e:
 
 st.header("👷 Participación por Operador")
 
+df_operadores = df[
+    df["Marca temporal"] >= pd.Timestamp("2026-07-01")
+]
+
 df_operadores = (
-    df.groupby("Operador")
+    df_operadores.groupby("Operador")
     .size()
     .reset_index(name="Registros")
+    .sort_values("Registros", ascending=False)
 )
 
 fig = px.pie(
