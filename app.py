@@ -369,8 +369,13 @@ if gases > 80:
 # ======================================
 
 st.subheader("📋 Últimos Registros")
+st.write(df.dtypes)
+df_mostrar = df.copy()
+
+for col in df_mostrar.columns:
+    df_mostrar[col] = df_mostrar[col].astype(str)
 
 st.dataframe(
-    df.tail(20),
+    df_mostrar.tail(20),
     use_container_width=True
 )
