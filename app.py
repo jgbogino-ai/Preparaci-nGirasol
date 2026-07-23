@@ -382,20 +382,30 @@ if gases > 80:
 # ======================================
 
 # ======================================
-# ULTIMOS REGISTROS
+# ULTIMAS 5 CARGAS
 # ======================================
 
-st.subheader("📋 Últimos 5 Registros")
+st.subheader("📋 Últimas 5 cargas realizadas")
 
 try:
 
-    ultimos_5 = df.tail(5).copy()
+    registros = df[[
+        "Marca temporal",
+        "Operador"
+    ]].tail(5)
 
-    for col in ultimos_5.columns:
-        ultimos_5[col] = ultimos_5[col].astype(str)
+    registros = registros.sort_values(
+        by="Marca temporal",
+        ascending=False
+    )
 
-    st.table(ultimos_5)
+    registros["Marca temporal"] = pd.to_datetime(
+        registros["Marca temporal"]
+    ).dt.strftime("%d/%m/%Y %H:%M")
+
+    st.table(registros)
 
 except Exception as e:
 
     st.error(f"Error al mostrar registros: {e}")
+
