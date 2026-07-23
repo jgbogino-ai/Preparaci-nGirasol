@@ -39,61 +39,36 @@ horas_sin_carga = (
 
 if horas_sin_carga > 2:
 
-    st.markdown(
+    st.error(
         f"""
-        <div style="
-            background:#b71c1c;
-            color:white;
-            padding:15px;
-            border-radius:12px;
-            text-align:center;
-            margin-bottom:20px;
-        ">
-            <h2>🚨 ALERTA DE CARGA</h2>
+🚨 ALERTA DE CARGA
 
-            <h3>Operador: {operador_ultimo}</h3>
+Operador: {operador_ultimo}
 
-            <h3>Supervisor: {supervisor_ultimo}</h3>
+Supervisor: {supervisor_ultimo}
 
-            <h3>
-            Última carga:
-            {fecha_ultima.strftime('%d/%m/%Y %H:%M')}
-            </h3>
+Última carga:
+{fecha_ultima.strftime('%d/%m/%Y %H:%M')}
 
-            <h2>
-            {horas_sin_carga:.1f} horas sin registros
-            </h2>
-        </div>
-        """,
-        unsafe_allow_html=True
+Han transcurrido
+{horas_sin_carga:.1f} horas sin registros.
+"""
     )
 
 else:
 
-    st.markdown(
+    st.success(
         f"""
-        <div style="
-            background:#1b5e20;
-            color:white;
-            padding:15px;
-            border-radius:12px;
-            text-align:center;
-            margin-bottom:20px;
-        ">
-            <h2>✅ ÚLTIMA CARGA REGISTRADA</h2>
+✅ Última carga registrada
 
-            <h3>Operador: {operador_ultimo}</h3>
+Operador: {operador_ultimo}
 
-            <h3>Supervisor: {supervisor_ultimo}</h3>
+Supervisor: {supervisor_ultimo}
 
-            <h3>
-            {fecha_ultima.strftime('%d/%m/%Y %H:%M')}
-            </h3>
-        </div>
-        """,
-        unsafe_allow_html=True
+Fecha:
+{fecha_ultima.strftime('%d/%m/%Y %H:%M')}
+"""
     )
-
 
 # ======================================
 # Último registro
