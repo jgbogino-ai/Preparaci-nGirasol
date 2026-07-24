@@ -100,10 +100,10 @@ Fecha:
 
 def sem_amperaje(v):
 
-    if v < 125:
+    if v < 120:
         return ("🔴 ROJO", "red")
 
-    elif v <= 135:
+    elif v <= 130:
         return ("🟡 AMARILLO", "orange")
 
     else:
