@@ -24,7 +24,8 @@ def cargar_datos():
 
 df = cargar_datos()
 st.write(df.shape)
-st.write(df.head())
+st.write(df.columns.tolist())
+st.write(df.head(10))
 
 df.columns = df.columns.str.strip()
 
