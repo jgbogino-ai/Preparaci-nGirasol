@@ -59,7 +59,7 @@ horas_sin_carga = (
     ahora - fecha_ultima
 ).total_seconds() / 3600
 
-st.title("🏭 Dashboard Pelleteado")
+st.title("🏭  Pelleteado")
 
 if horas_sin_carga > 2:
 
