@@ -180,7 +180,15 @@ def sem_cocina1(v):
 
 def sem_cocina2(v):
     return ("🟢 VERDE","green") if 104 <= v <= 110 else ("🔴 ROJO","red")
-
+def sem_cocina3(v):
+    if v < 85:
+        return ("🔴 ROJO","red")
+    elif v < 90:
+        return ("🟡 AMARILLO","orange")
+    elif v <= 100:
+        return ("🟢 VERDE","green")
+    else:
+        return ("🔴 ROJO","red")
 def sem_hum_entrada(v):
     if v < 9:
         return ("🟢 VERDE","green")
@@ -218,7 +226,7 @@ corr3 = float(ultimo["Corriente (AMP) PRENSA 3"])
 
 coc1 = float(ultimo["Temperatura (°C) COCINA 1"])
 coc2 = float(ultimo["Temperatura (°C) COCINA 2"])
-
+coc3 = float(ultimo["Temperatura (°C) COCINA 3"])
 lam_der = float(
     ultimo["Espesor lámina derecha (0,xx) MOLINO LADO PRENSAS"]
 )
