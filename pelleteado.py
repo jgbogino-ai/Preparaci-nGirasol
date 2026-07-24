@@ -23,9 +23,7 @@ def cargar_datos():
     return pd.read_csv(URL)
 
 df = cargar_datos()
-st.write(df.shape)
-st.write(df.columns.tolist())
-st.write(df.head(10))
+
 
 df.columns = df.columns.str.strip()
 
