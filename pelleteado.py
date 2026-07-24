@@ -232,10 +232,19 @@ st.header("📊 Indicadores")
 
 c1, c2, c3 = st.columns(3)
 
-c1.metric(
-    "Humedad Pellet %",
-    round(humedad,2)
-)
+if pd.isna(humedad):
+
+    c1.metric(
+        "Humedad Pellet %",
+        "SIN DATO"
+    )
+
+else:
+
+    c1.metric(
+        "Humedad Pellet %",
+        round(humedad,2)
+    )
 
 c2.metric(
     "Destino",
