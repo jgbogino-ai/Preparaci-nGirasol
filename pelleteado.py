@@ -223,50 +223,24 @@ humedad = pd.to_numeric(
 # CONTROL RESULTADO LABORATORIO
 # ======================================
 
-horarios_muestra = [
-    "01:30",
-    "05:15",
-    "09:30",
-    "12:00",
-    "15:30",
-    "17:30",
-    "20:30",
-    "23:30"
-]
+# ======================================
+# HORARIOS DE MUESTRA
+# ======================================
 
-hora_ultima = fecha_ultima.strftime("%H:%M")
+st.info(
+    """
+🧪 HORARIOS DE TOMA DE MUESTRA LABORATORIO
 
-reclamar_resultado = False
-
-if pd.isna(humedad):
-
-    hora_carga = pd.Timestamp(fecha_ultima)
-
-    for h in horarios_muestra:
-
-        hora_muestra = pd.Timestamp(
-            f"{hora_carga.strftime('%Y-%m-%d')} {h}"
-        )
-
-        diferencia = (
-            hora_carga - hora_muestra
-        ).total_seconds() / 60
-
-        if 30 <= diferencia <= 90:
-
-            reclamar_resultado = True
-            break
-
-if reclamar_resultado:
-
-    st.error(
-        """
-📢 RECLAMAR RESULTADO DE LABORATORIO
-
-Ya transcurrieron más de 30 minutos desde la toma de muestra
-y todavía no se encuentra cargado el valor de humedad del pellet.
+01:30 hs
+05:15 hs
+09:30 hs
+12:00 hs
+15:30 hs (Llevar por duplicado)
+17:30 hs
+20:30 hs
+23:30 hs
 """
-    )
+)
 # ==================================================
 # KPI
 # ==================================================
