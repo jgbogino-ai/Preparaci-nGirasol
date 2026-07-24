@@ -6,7 +6,7 @@ import plotly.express as px
 # CONFIGURACION
 # ==================================================
 
-URL = https://docs.google.com/spreadsheets/d/e/2PACX-1vSPwdonlIsyjr7cLcQm0tdn-D5Q5hi2345xHQA1bQACv9D8qPABYMtHijFjxPgEoejnE8SWRjsKovpd/pub?output=csv
+URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPwdonlIsyjr7cLcQm0tdn-D5Q5hi2345xHQA1bQACv9D8qPABYMtHijFjxPgEoejnE8SWRjsKovpd/pub?output=csv"
 
 st.set_page_config(
     page_title="Pelleteado",
