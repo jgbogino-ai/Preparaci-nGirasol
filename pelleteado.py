@@ -23,6 +23,9 @@ def cargar_datos():
     return pd.read_csv(URL)
 
 df = cargar_datos()
+st.write(df.shape)
+st.write(df.head())
+
 df.columns = df.columns.str.strip()
 
 df["Marca temporal"] = pd.to_datetime(
