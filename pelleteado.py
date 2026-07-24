@@ -33,6 +33,14 @@ df["Marca temporal"] = pd.to_datetime(
 
 df = df.sort_values("Marca temporal")
 
+if df.empty:
+
+    st.error(
+        "No se encontraron registros en la planilla de Google."
+    )
+
+    st.stop()
+
 ultimo = df.iloc[-1]
 
 # ==================================================
