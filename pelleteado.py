@@ -214,14 +214,14 @@ st.info(
     """
 🧪 HORARIOS DE TOMA DE MUESTRA 
 
-01:30 hs
-05:15 hs
-09:30 hs
+01 hs
+05 hs
+09 hs
 12:00 hs
-15:30 hs (Llevar por duplicado)
-17:30 hs
-20:30 hs
-23:30 hs
+15 hs (Llevar por duplicado)
+17 hs
+20 hs
+23 hs
 """
 )
 # ==================================================
