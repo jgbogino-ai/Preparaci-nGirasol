@@ -228,6 +228,7 @@ corr3 = float(ultimo["Corriente (AMP) PRENSA 3"])
 coc1 = float(ultimo["Temperatura (°C) COCINA 1"])
 coc2 = float(ultimo["Temperatura (°C) COCINA 2"])
 coc3 = float(ultimo["Temperatura (°C) COCINA 3"])
+
 lam_der = float(
     ultimo["Espesor lámina derecha (0,xx) MOLINO LADO PRENSAS"]
 )
@@ -296,7 +297,7 @@ with c3:
 
 st.header("🍳 Cocinas")
 
-c4,c5 = st.columns(2)
+c4, c5, c6 = st.columns(3)
 
 estado,color = sem_cocina1(coc1)
 with c4:
@@ -305,6 +306,10 @@ with c4:
 estado,color = sem_cocina2(coc2)
 with c5:
     tarjeta("COCINA 2", f"{coc2:.1f} °C", estado, color)
+
+estado,color = sem_cocina3(coc3)
+with c6:
+    tarjeta("COCINA 3", f"{coc3:.1f} °C", estado, color)
 
 # ======================================
 # LAMINADORES
