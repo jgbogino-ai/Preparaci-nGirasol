@@ -93,24 +93,7 @@ Fecha:
 {fecha_ultima.strftime('%d/%m/%Y %H:%M')}
 """
     )
-# ======================================
-# HORARIOS DE MUESTRA
-# ======================================
 
-st.info(
-    """
-🧪 HORARIOS DE TOMA DE MUESTRA PELLET
-
-05:15 hs
-09:30 hs
-12:00 hs
-15:30 hs
-17:30 hs
-20:30 hs
-23:30 hs
-01:30 hs
-"""
-)
 # ==================================================
 # FUNCIONES SEMAFOROS
 # ==================================================
@@ -229,7 +212,7 @@ humedad = pd.to_numeric(
 
 st.info(
     """
-🧪 HORARIOS DE TOMA DE MUESTRA LABORATORIO
+🧪 HORARIOS DE TOMA DE MUESTRA 
 
 01:30 hs
 05:15 hs
