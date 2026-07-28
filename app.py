@@ -292,6 +292,13 @@ lam_der = float(
 lam_izq = float(
     ultimo["Espesor lámina izquierda (0,xx) MOLINO LADO PRENSAS"]
 )
+lam_der_zar = float(
+    ultimo["Espesor lámina derecha (0,xx) MOLINO LADO ZARANDAS"]
+)
+
+lam_izq_zar = float(
+    ultimo["Espesor lámina izquierda (0,xx) MOLINO LADO ZARANDAS"]
+)
 
 hum_ent = float(
     ultimo["Humedad de entrada secadora (%)"]
@@ -429,18 +436,49 @@ tarjeta(
 # LAMINADORES
 # ======================================
 
+# ======================================
+# LAMINADORES
+# ======================================
+
 st.header("📏 Laminadores")
 
-c6,c7 = st.columns(2)
+c6, c7, c8, c9 = st.columns(4)
 
 estado,color = sem_lamina(lam_der)
 with c6:
-    tarjeta("LAMINA DERECHA", f"{lam_der:.2f} mm", estado, color)
+    tarjeta(
+        "PRENSAS DER.",
+        f"{lam_der:.2f} mm",
+        estado,
+        color
+    )
 
 estado,color = sem_lamina(lam_izq)
 with c7:
-    tarjeta("LAMINA IZQUIERDA", f"{lam_izq:.2f} mm", estado, color)
+    tarjeta(
+        "PRENSAS IZQ.",
+        f"{lam_izq:.2f} mm",
+        estado,
+        color
+    )
 
+estado,color = sem_lamina(lam_der_zar)
+with c8:
+    tarjeta(
+        "ZARANDAS DER.",
+        f"{lam_der_zar:.2f} mm",
+        estado,
+        color
+    )
+
+estado,color = sem_lamina(lam_izq_zar)
+with c9:
+    tarjeta(
+        "ZARANDAS IZQ.",
+        f"{lam_izq_zar:.2f} mm",
+        estado,
+        color
+    )
 # ======================================
 # HUMEDADES
 # ======================================
