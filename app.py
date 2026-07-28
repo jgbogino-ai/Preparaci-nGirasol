@@ -410,6 +410,20 @@ with c5:
 estado,color = sem_cocina3(coc3)
 with c6:
     tarjeta("COCINA 3", f"{coc3:.1f} °C", estado, color)
+# ======================================
+# CORRIENTE COCINA 3
+# ======================================
+
+st.subheader("⚡ Corriente Cocina 3")
+
+estado, color = sem_corr_coc3(corr_coc3)
+
+tarjeta(
+    "CORRIENTE COCINA 3",
+    f"{corr_coc3:.1f} A",
+    estado,
+    color
+)
 
 # ======================================
 # LAMINADORES
