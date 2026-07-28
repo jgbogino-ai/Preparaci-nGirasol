@@ -250,7 +250,16 @@ def sem_alim_prensa3(v):
 
     else:
         return ("🟢 VERDE", "green")
+def sem_corr_coc3(v):
 
+    if v < 38:
+        return ("🔴 ROJO","red")
+
+    elif v <= 45:
+        return ("🟡 AMARILLO","orange")
+
+    else:
+        return ("🟢 VERDE","green")
 # ======================================
 # VARIABLES
 # ======================================
@@ -258,6 +267,9 @@ def sem_alim_prensa3(v):
 corr1 = float(ultimo["Corriente (AMP) PRENSA 1"])
 corr2 = float(ultimo["Corriente (AMP) PRENSA 2"])
 corr3 = float(ultimo["Corriente (AMP) PRENSA 3"])
+corr_coc3 = float(
+    ultimo["Corriente Cocina 3"]
+)
 alim1 = float(
     ultimo["% ALIMENTADOR PRENSA 1"]
 )
@@ -368,6 +380,17 @@ with c:
         estado,
         color
     )
+
+def sem_corr_coc3(v):
+
+    if v < 38:
+        return ("🔴 ROJO","red")
+
+    elif v <= 45:
+        return ("🟡 AMARILLO","orange")
+
+    else:
+        return ("🟢 VERDE","green")
 # ======================================
 # COCINAS
 # ======================================
