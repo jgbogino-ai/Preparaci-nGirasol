@@ -216,6 +216,40 @@ def sem_gases(v):
     else:
         return ("🟢 VERDE","green")
 
+def sem_alim_prensa1(v):
+
+    if v < 28:
+        return ("🔴 ROJO", "red")
+
+    elif v <= 30:
+        return ("🟡 AMARILLO", "orange")
+
+    else:
+        return ("🟢 VERDE", "green")
+
+
+def sem_alim_prensa2(v):
+
+    if v < 24:
+        return ("🔴 ROJO", "red")
+
+    elif v <= 27:
+        return ("🟡 AMARILLO", "orange")
+
+    else:
+        return ("🟢 VERDE", "green")
+
+
+def sem_alim_prensa3(v):
+
+    if v < 5:
+        return ("🔴 ROJO", "red")
+
+    elif v <= 7:
+        return ("🟡 AMARILLO", "orange")
+
+    else:
+        return ("🟢 VERDE", "green")
 
 # ======================================
 # VARIABLES
@@ -224,7 +258,17 @@ def sem_gases(v):
 corr1 = float(ultimo["Corriente (AMP) PRENSA 1"])
 corr2 = float(ultimo["Corriente (AMP) PRENSA 2"])
 corr3 = float(ultimo["Corriente (AMP) PRENSA 3"])
+alim1 = float(
+    ultimo["% ALIMENTADOR PRENSA 1"]
+)
 
+alim2 = float(
+    ultimo["% ALIMENTADOR PRENSA 2"]
+)
+
+alim3 = float(
+    ultimo["% ALIMENTADOR PRENSA 3"]
+)
 coc1 = float(ultimo["Temperatura (°C) COCINA 1"])
 coc2 = float(ultimo["Temperatura (°C) COCINA 2"])
 coc3 = float(ultimo["Temperatura (°C) COCINA 3"])
@@ -290,7 +334,40 @@ with c2:
 estado,color = sem_prensa3(corr3)
 with c3:
     tarjeta("PRENSA 3", f"{corr3:.0f} A", estado, color)
+# ======================================
+# ALIMENTADORES PRENSAS
+# ======================================
 
+st.subheader("🥣 Alimentadores de Prensas")
+
+a, b, c = st.columns(3)
+
+estado, color = sem_alim_prensa1(alim1)
+with a:
+    tarjeta(
+        "ALIMENTADOR P1",
+        f"{alim1:.1f} %",
+        estado,
+        color
+    )
+
+estado, color = sem_alim_prensa2(alim2)
+with b:
+    tarjeta(
+        "ALIMENTADOR P2",
+        f"{alim2:.1f} %",
+        estado,
+        color
+    )
+
+estado, color = sem_alim_prensa3(alim3)
+with c:
+    tarjeta(
+        "ALIMENTADOR P3",
+        f"{alim3:.1f} %",
+        estado,
+        color
+    )
 # ======================================
 # COCINAS
 # ======================================
