@@ -268,7 +268,7 @@ corr1 = float(ultimo["Corriente (AMP) PRENSA 1"])
 corr2 = float(ultimo["Corriente (AMP) PRENSA 2"])
 corr3 = float(ultimo["Corriente (AMP) PRENSA 3"])
 corr_coc3 = float(
-    ultimo["Corriente Cocina 3"]
+    ultimo["Corriente de cocina 3 (amperaje)"]
 )
 alim1 = float(
     ultimo["% ALIMENTADOR PRENSA 1"]
