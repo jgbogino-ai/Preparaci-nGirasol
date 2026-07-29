@@ -574,43 +574,47 @@ try:
         ascending=False
     )
 
-    registros["Marca temporal"] = (
-        pd.to_datetime(
-            registros["Marca temporal"]
-        ).dt.strftime("%d/%m/%Y %H:%M")
-    )
+    registros["Marca temporal"] = pd.to_datetime(
+        registros["Marca temporal"]
+    ).dt.strftime("%d/%m/%Y %H:%M")
 
     registros["Humedad salida secadora (%)"] = pd.to_numeric(
-    registros["Humedad salida secadora (%)"],
-    errors="coerce"
-).map(lambda x: f"{x:.1f}" if pd.notnull(x) else "")
+        registros["Humedad salida secadora (%)"],
+        errors="coerce"
+    ).map(lambda x: f"{x:.1f}" if pd.notnull(x) else "")
 
     registros["Pesaje de balanza (tn/h)"] = pd.to_numeric(
-    registros["Pesaje de balanza (tn/h)"],
-    errors="coerce"
-).map(lambda x: f"{x:.1f}" if pd.notnull(x) else "")
+        registros["Pesaje de balanza (tn/h)"],
+        errors="coerce"
+    ).map(lambda x: f"{x:.1f}" if pd.notnull(x) else "")
 
     registros["Corriente de cocina 3 (amperaje)"] = pd.to_numeric(
-    registros["Corriente de cocina 3 (amperaje)"],
-    errors="coerce"
-).map(lambda x: f"{x:.0f}" if pd.notnull(x) else "")
+        registros["Corriente de cocina 3 (amperaje)"],
+        errors="coerce"
+    ).map(lambda x: f"{x:.0f}" if pd.notnull(x) else "")
 
-registros["% ALIMENTADOR PRENSA 1"] = pd.to_numeric(
-    registros["% ALIMENTADOR PRENSA 1"],
-    errors="coerce"
-).map(lambda x: f"{x:.0f}" if pd.notnull(x) else "")
+    registros["% ALIMENTADOR PRENSA 1"] = pd.to_numeric(
+        registros["% ALIMENTADOR PRENSA 1"],
+        errors="coerce"
+    ).map(lambda x: f"{x:.0f}" if pd.notnull(x) else "")
 
-registros["% ALIMENTADOR PRENSA 2"] = pd.to_numeric(
-    registros["% ALIMENTADOR PRENSA 2"],
-    errors="coerce"
-).map(lambda x: f"{x:.0f}" if pd.notnull(x) else "")
+    registros["% ALIMENTADOR PRENSA 2"] = pd.to_numeric(
+        registros["% ALIMENTADOR PRENSA 2"],
+        errors="coerce"
+    ).map(lambda x: f"{x:.0f}" if pd.notnull(x) else "")
 
-registros["% ALIMENTADOR PRENSA 3"] = pd.to_numeric(
-    registros["% ALIMENTADOR PRENSA 3"],
-    errors="coerce"
-).map(lambda x: f"{x:.0f}" if pd.notnull(x) else "")
+    registros["% ALIMENTADOR PRENSA 3"] = pd.to_numeric(
+        registros["% ALIMENTADOR PRENSA 3"],
+        errors="coerce"
+    ).map(lambda x: f"{x:.0f}" if pd.notnull(x) else "")
+
     st.table(registros)
+
 except Exception as e:
+
+    st.error(
+        f"Error al mostrar registros: {e}"
+    )
 
     st.error(
         f"Error al mostrar registros: {e}"
