@@ -556,18 +556,18 @@ st.subheader("📋 Últimas 15 cargas realizadas")
 try:
 
     registros = df[
-    [
-        "Marca temporal",
-        "Operador",
-        "Supervisor",
-        "Humedad salida secadora (%)",
-        "Pesaje de balanza (tn/h)",
-        "Corriente de cocina 3 (amperaje)",
-        "% ALIMENTADOR PRENSA 1",
-        "% ALIMENTADOR PRENSA 2",
-        "% ALIMENTADOR PRENSA 3"
-    ]
-].tail(15)
+        [
+            "Marca temporal",
+            "Operador",
+            "Supervisor",
+            "Humedad salida secadora (%)",
+            "Pesaje de balanza (tn/h)",
+            "Corriente de cocina 3 (amperaje)",
+            "% ALIMENTADOR PRENSA 1",
+            "% ALIMENTADOR PRENSA 2",
+            "% ALIMENTADOR PRENSA 3"
+        ]
+    ].tail(15)
 
     registros = registros.sort_values(
         by="Marca temporal",
@@ -575,60 +575,60 @@ try:
     )
 
     registros["Marca temporal"] = (
-    pd.to_datetime(
-        registros["Marca temporal"]
-    ).dt.strftime("%d/%m/%Y %H:%M")
-)
+        pd.to_datetime(
+            registros["Marca temporal"]
+        ).dt.strftime("%d/%m/%Y %H:%M")
+    )
 
-registros["Humedad salida secadora (%)"] = (
-    pd.to_numeric(
-        registros["Humedad salida secadora (%)"],
-        errors="coerce"
-    ).round(1)
-)
+    registros["Humedad salida secadora (%)"] = (
+        pd.to_numeric(
+            registros["Humedad salida secadora (%)"],
+            errors="coerce"
+        ).round(1)
+    )
 
-registros["Pesaje de balanza (tn/h)"] = (
-    pd.to_numeric(
-        registros["Pesaje de balanza (tn/h)"],
-        errors="coerce"
-    ).round(1)
-)
+    registros["Pesaje de balanza (tn/h)"] = (
+        pd.to_numeric(
+            registros["Pesaje de balanza (tn/h)"],
+            errors="coerce"
+        ).round(1)
+    )
 
-registros["Corriente de cocina 3 (amperaje)"] = (
-    pd.to_numeric(
-        registros["Corriente de cocina 3 (amperaje)"],
-        errors="coerce"
-    ).round(0)
-)
+    registros["Corriente de cocina 3 (amperaje)"] = (
+        pd.to_numeric(
+            registros["Corriente de cocina 3 (amperaje)"],
+            errors="coerce"
+        ).round(0)
+    )
 
-registros["% ALIMENTADOR PRENSA 1"] = (
-    pd.to_numeric(
-        registros["% ALIMENTADOR PRENSA 1"],
-        errors="coerce"
-    ).round(0)
-)
+    registros["% ALIMENTADOR PRENSA 1"] = (
+        pd.to_numeric(
+            registros["% ALIMENTADOR PRENSA 1"],
+            errors="coerce"
+        ).round(0)
+    )
 
-registros["% ALIMENTADOR PRENSA 2"] = (
-    pd.to_numeric(
-        registros["% ALIMENTADOR PRENSA 2"],
-        errors="coerce"
-    ).round(0)
-)
+    registros["% ALIMENTADOR PRENSA 2"] = (
+        pd.to_numeric(
+            registros["% ALIMENTADOR PRENSA 2"],
+            errors="coerce"
+        ).round(0)
+    )
 
-registros["% ALIMENTADOR PRENSA 3"] = (
-    pd.to_numeric(
-        registros["% ALIMENTADOR PRENSA 3"],
-        errors="coerce"
-    ).round(0)
-)
+    registros["% ALIMENTADOR PRENSA 3"] = (
+        pd.to_numeric(
+            registros["% ALIMENTADOR PRENSA 3"],
+            errors="coerce"
+        ).round(0)
+    )
 
-st.table(registros)
-
+    st.table(registros)
 
 except Exception as e:
 
-    st.error(f"Error al mostrar registros: {e}")
-
+    st.error(
+        f"Error al mostrar registros: {e}"
+    )
 # ======================================
 # PARTICIPACION POR OPERADOR
 # ======================================
