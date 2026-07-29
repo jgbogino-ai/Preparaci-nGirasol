@@ -556,12 +556,18 @@ st.subheader("📋 Últimas 15 cargas realizadas")
 try:
 
     registros = df[
-        [
-            "Marca temporal",
-            "Operador",
-            "Supervisor"
-        ]
-    ].tail(15)
+    [
+        "Marca temporal",
+        "Operador",
+        "Supervisor",
+        "Humedad salida secadora (%)",
+        "Pesaje de balanza (tn/h)",
+        "Corriente de cocina 3 (amperaje)",
+        "% ALIMENTADOR PRENSA 1",
+        "% ALIMENTADOR PRENSA 2",
+        "% ALIMENTADOR PRENSA 3"
+    ]
+].tail(15)
 
     registros = registros.sort_values(
         by="Marca temporal",
