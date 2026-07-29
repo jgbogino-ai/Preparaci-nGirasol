@@ -575,12 +575,55 @@ try:
     )
 
     registros["Marca temporal"] = (
-        pd.to_datetime(
-            registros["Marca temporal"]
-        ).dt.strftime("%d/%m/%Y %H:%M")
-    )
+    pd.to_datetime(
+        registros["Marca temporal"]
+    ).dt.strftime("%d/%m/%Y %H:%M")
+)
 
-    st.table(registros)
+registros["Humedad salida secadora (%)"] = (
+    pd.to_numeric(
+        registros["Humedad salida secadora (%)"],
+        errors="coerce"
+    ).round(1)
+)
+
+registros["Pesaje de balanza (tn/h)"] = (
+    pd.to_numeric(
+        registros["Pesaje de balanza (tn/h)"],
+        errors="coerce"
+    ).round(1)
+)
+
+registros["Corriente de cocina 3 (amperaje)"] = (
+    pd.to_numeric(
+        registros["Corriente de cocina 3 (amperaje)"],
+        errors="coerce"
+    ).round(0)
+)
+
+registros["% ALIMENTADOR PRENSA 1"] = (
+    pd.to_numeric(
+        registros["% ALIMENTADOR PRENSA 1"],
+        errors="coerce"
+    ).round(0)
+)
+
+registros["% ALIMENTADOR PRENSA 2"] = (
+    pd.to_numeric(
+        registros["% ALIMENTADOR PRENSA 2"],
+        errors="coerce"
+    ).round(0)
+)
+
+registros["% ALIMENTADOR PRENSA 3"] = (
+    pd.to_numeric(
+        registros["% ALIMENTADOR PRENSA 3"],
+        errors="coerce"
+    ).round(0)
+)
+
+st.table(registros)
+
 
 except Exception as e:
 
