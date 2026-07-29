@@ -622,7 +622,7 @@ try:
         ).round(0)
     )
 
-st.table(registros)
+    st.table(registros)
 except Exception as e:
 
     st.error(
