@@ -621,31 +621,8 @@ try:
             errors="coerce"
         ).round(0)
     )
-registros["Humedad salida secadora (%)"] = registros[
-    "Humedad salida secadora (%)"
-].map(lambda x: f"{float(x):.1f}" if pd.notnull(x) else "")
 
-registros["Pesaje de balanza (tn/h)"] = registros[
-    "Pesaje de balanza (tn/h)"
-].map(lambda x: f"{float(x):.1f}" if pd.notnull(x) else "")
-
-registros["Corriente de cocina 3 (amperaje)"] = registros[
-    "Corriente de cocina 3 (amperaje)"
-].map(lambda x: f"{float(x):.0f}" if pd.notnull(x) else "")
-
-registros["% ALIMENTADOR PRENSA 1"] = registros[
-    "% ALIMENTADOR PRENSA 1"
-].map(lambda x: f"{float(x):.0f}" if pd.notnull(x) else "")
-
-registros["% ALIMENTADOR PRENSA 2"] = registros[
-    "% ALIMENTADOR PRENSA 2"
-].map(lambda x: f"{float(x):.0f}" if pd.notnull(x) else "")
-
-registros["% ALIMENTADOR PRENSA 3"] = registros[
-    "% ALIMENTADOR PRENSA 3"
-].map(lambda x: f"{float(x):.0f}" if pd.notnull(x) else "")
-    st.table(registros)
-
+st.table(registros)
 except Exception as e:
 
     st.error(
