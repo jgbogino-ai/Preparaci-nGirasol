@@ -260,6 +260,18 @@ def sem_corr_coc3(v):
 
     else:
         return ("🟢 VERDE","green")
+
+def sem_basculante(v):
+
+    if v < 30:
+        return ("🔴 ROJO", "red")
+
+    elif v <= 35:
+        return ("🟡 AMARILLO", "orange")
+
+    else:
+        return ("🟢 VERDE", "green")
+
 # ======================================
 # VARIABLES
 # ======================================
@@ -288,7 +300,9 @@ coc3 = float(ultimo["Temperatura (°C) COCINA 3"])
 lam_der = float(
     ultimo["Espesor lámina derecha (0,xx) MOLINO LADO PRENSAS"]
 )
-
+gases = float(
+    ultimo["TEMPERATURA DE GASES DE ENFRIADOR"]
+)
 lam_izq = float(
     ultimo["Espesor lámina izquierda (0,xx) MOLINO LADO PRENSAS"]
 )
@@ -307,10 +321,10 @@ hum_ent = float(
 hum_sal = float(
     ultimo["Humedad salida secadora (%)"]
 )
-
-gases = float(
-    ultimo["TEMPERATURA DE GASES DE ENFRIADOR"]
+basculante = float(
+    ultimo["Velocidad del basculante (%)"]
 )
+
 
 # ======================================
 # FUNCION TARJETA
@@ -511,6 +525,21 @@ tarjeta(
 )
 
 # ======================================
+# BASCULANTE
+# ======================================
+
+st.header("🔄 Basculante")
+
+estado, color = sem_basculante(basculante)
+
+tarjeta(
+    "VELOCIDAD BASCULANTE",
+    f"{basculante:.0f} %",
+    estado,
+    color
+)
+
+# ======================================
 # ENFRIADOR
 # ======================================
 
@@ -563,6 +592,7 @@ try:
             "Humedad salida secadora (%)",
             "Pesaje de balanza (tn/h)",
             "Corriente de cocina 3 (amperaje)",
+            "Velocidad del basculante (%)",
             "% ALIMENTADOR PRENSA 1",
             "% ALIMENTADOR PRENSA 2",
             "% ALIMENTADOR PRENSA 3"
@@ -592,6 +622,11 @@ try:
         registros["Corriente de cocina 3 (amperaje)"],
         errors="coerce"
     ).map(lambda x: f"{x:.0f}" if pd.notnull(x) else "")
+
+    registros["Velocidad del basculante (%)"] = pd.to_numeric(
+    registros["Velocidad del basculante (%)"],
+    errors="coerce"
+).round(0)
 
     registros["% ALIMENTADOR PRENSA 1"] = pd.to_numeric(
         registros["% ALIMENTADOR PRENSA 1"],
