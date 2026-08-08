@@ -612,7 +612,7 @@ try:
     registros["Humedad de entrada secadora (%)"] = pd.to_numeric(
     registros["Humedad de entrada secadora (%)"],
     errors="coerce"
-).round(1)
+).map(lambda x: f"{x:.1f}" if pd.notnull(x) else "")
 
     registros["Humedad salida secadora (%)"] = pd.to_numeric(
         registros["Humedad salida secadora (%)"],
@@ -632,7 +632,7 @@ try:
     registros["Velocidad del basculante (%)"] = pd.to_numeric(
     registros["Velocidad del basculante (%)"],
     errors="coerce"
-).round(0)
+).map(lambda x: f"{x:.0f}" if pd.notnull(x) else "")
 
     registros["% ALIMENTADOR PRENSA 1"] = pd.to_numeric(
         registros["% ALIMENTADOR PRENSA 1"],
