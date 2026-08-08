@@ -723,15 +723,33 @@ try:
         marker=dict(size=5)
     )
 
-    # Línea objetivo humedad entrada
+   # ======================================
+# LINEAS OBJETIVO
+# ======================================
 
-    fig_hum.add_hline(
-        y=9.5,
-        line_color="orange",
-        line_width=2,
-        line_dash="dash",
-        annotation_text="Objetivo 9.5%"
-    )
+# Humedad de entrada objetivo
+
+fig_hum.add_hline(
+    y=9.0,
+    line_color="orange",
+    line_width=2,
+    line_dash="dash",
+    annotation_text="Humedad Entrada a Secadora Objetivo 9.0%",
+    annotation_position="top left",
+    annotation_font_size=14
+)
+
+# Humedad de salida objetivo
+
+fig_hum.add_hline(
+    y=7.5,
+    line_color="green",
+    line_width=2,
+    line_dash="dash",
+    annotation_text="Humedad Salida de Secadora Objetivo 7.5%",
+    annotation_position="bottom left",
+    annotation_font_size=14
+)
 
     # Separación por día
 
