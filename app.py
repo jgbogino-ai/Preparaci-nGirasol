@@ -666,50 +666,61 @@ except Exception as e:
 
 st.header("📈 Evolución de Humedades")
 
-grafico_hum = df[
-    [
-        "Marca temporal",
-        "Humedad de entrada secadora (%)",
-        "Humedad salida secadora (%)"
-    ]
-].copy()
+try:
 
-grafico_hum["Marca temporal"] = pd.to_datetime(
-    grafico_hum["Marca temporal"],
-    errors="coerce"
-)
+    grafico_hum = df[
+        [
+            "Marca temporal",
+            "Humedad de entrada secadora (%)",
+            "Humedad salida secadora (%)"
+        ]
+    ].copy()
 
-grafico_hum["Humedad de entrada secadora (%)"] = pd.to_numeric(
-    grafico_hum["Humedad de entrada secadora (%)"],
-    errors="coerce"
-)
+    grafico_hum["Marca temporal"] = pd.to_datetime(
+        grafico_hum["Marca temporal"],
+        errors="coerce"
+    )
 
-grafico_hum["Humedad salida secadora (%)"] = pd.to_numeric(
-    grafico_hum["Humedad salida secadora (%)"],
-    errors="coerce"
-)
+    grafico_hum["Humedad de entrada secadora (%)"] = pd.to_numeric(
+        grafico_hum["Humedad de entrada secadora (%)"],
+        errors="coerce"
+    )
 
-grafico_hum = grafico_hum.tail(60)
+    grafico_hum["Humedad salida secadora (%)"] = pd.to_numeric(
+        grafico_hum["Humedad salida secadora (%)"],
+        errors="coerce"
+    )
 
-fig_hum = px.line(
-    grafico_hum,
-    x="Marca temporal",
-    y=[
-        "Humedad de entrada secadora (%)",
-        "Humedad salida secadora (%)"
-    ],
-    markers=True,
-    title="Humedad de Entrada vs Humedad de Salida"
-)
+    grafico_hum = grafico_hum.dropna()
 
-fig_hum.update_layout(
-    height=600,
-    xaxis_title="Fecha y Hora",
-    yaxis_title="Humedad (%)"
-)
+    grafico_hum = grafico_hum.tail(60)
 
-st.plotly_chart(
-)  
+    fig_hum = px.line(
+        grafico_hum,
+        x="Marca temporal",
+        y=[
+            "Humedad de entrada secadora (%)",
+            "Humedad salida secadora (%)"
+        ],
+        markers=True
+    )
+
+    fig_hum.update_layout(
+        height=600,
+        xaxis_title="Fecha y Hora",
+        yaxis_title="Humedad (%)"
+    )
+
+    st.plotly_chart(
+        fig_hum,
+        use_container_width=True
+    )
+
+except Exception as e:
+
+    st.error(
+        f"Error en gráfico de humedades: {e}"
+    )
 
 # ======================================
 # PARTICIPACION POR OPERADOR
