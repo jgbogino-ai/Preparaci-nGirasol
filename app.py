@@ -705,13 +705,17 @@ try:
         markers=True
     )
 
-    # Colores de las líneas
+    # Colores
 
     fig_hum.data[0].line.color = "blue"
     fig_hum.data[1].line.color = "red"
 
-    fig_hum.data[0].line.width = 3
-    fig_hum.data[1].line.width = 3
+    # Grosor de líneas
+
+    fig_hum.update_traces(
+        line=dict(width=4),
+        marker=dict(size=8)
+    )
 
     # Límites de control humedad salida
 
@@ -727,7 +731,7 @@ try:
         line_color="green"
     )
 
-    # Separación visual por día
+    # Líneas verticales por día
 
     dias = (
         grafico_hum["Marca temporal"]
@@ -746,22 +750,58 @@ try:
 
     fig_hum.update_layout(
         title="Humedad Entrada vs Salida de Secadora",
-        height=650,
+        height=800,
+
         plot_bgcolor="white",
         paper_bgcolor="white",
+
+        font=dict(
+            color="black",
+            size=14
+        ),
+
+        title_font=dict(
+            size=24,
+            color="black"
+        ),
+
         xaxis_title="Fecha y Hora",
         yaxis_title="Humedad (%)",
-        legend_title="Variables"
+
+        legend_title="Variables",
+
+        legend=dict(
+            font=dict(
+                size=14,
+                color="black"
+            )
+        )
     )
 
     fig_hum.update_xaxes(
         showgrid=True,
-        gridcolor="lightgray"
+        gridcolor="lightgray",
+        tickfont=dict(
+            color="black",
+            size=12
+        ),
+        title_font=dict(
+            color="black",
+            size=16
+        )
     )
 
     fig_hum.update_yaxes(
         showgrid=True,
-        gridcolor="lightgray"
+        gridcolor="lightgray",
+        tickfont=dict(
+            color="black",
+            size=12
+        ),
+        title_font=dict(
+            color="black",
+            size=16
+        )
     )
 
     st.plotly_chart(
