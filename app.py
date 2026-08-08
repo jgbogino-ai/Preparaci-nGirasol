@@ -580,7 +580,7 @@ if gases > 80:
 # ULTIMAS 5 CARGAS
 # ======================================
 
-st.subheader("📋 Últimas 15 cargas realizadas")
+st.subheader("📋 Últimos 60 registros")
 
 try:
 
@@ -589,6 +589,7 @@ try:
             "Marca temporal",
             "Operador",
             "Supervisor",
+            "Humedad de entrada secadora (%)",
             "Humedad salida secadora (%)",
             "Pesaje de balanza (tn/h)",
             "Corriente de cocina 3 (amperaje)",
@@ -597,7 +598,7 @@ try:
             "% ALIMENTADOR PRENSA 2",
             "% ALIMENTADOR PRENSA 3"
         ]
-    ].tail(15)
+    ].tail(60)
 
     registros = registros.sort_values(
         by="Marca temporal",
@@ -607,6 +608,11 @@ try:
     registros["Marca temporal"] = pd.to_datetime(
         registros["Marca temporal"]
     ).dt.strftime("%d/%m/%Y %H:%M")
+
+    registros["Humedad de entrada secadora (%)"] = pd.to_numeric(
+    registros["Humedad de entrada secadora (%)"],
+    errors="coerce"
+).round(1)
 
     registros["Humedad salida secadora (%)"] = pd.to_numeric(
         registros["Humedad salida secadora (%)"],
@@ -654,6 +660,57 @@ except Exception as e:
     st.error(
         f"Error al mostrar registros: {e}"
     )
+# ======================================
+# GRAFICO HUMEDADES
+# ======================================
+
+st.header("📈 Evolución de Humedades")
+
+grafico_hum = df[
+    [
+        "Marca temporal",
+        "Humedad de entrada secadora (%)",
+        "Humedad salida secadora (%)"
+    ]
+].copy()
+
+grafico_hum["Marca temporal"] = pd.to_datetime(
+    grafico_hum["Marca temporal"],
+    errors="coerce"
+)
+
+grafico_hum["Humedad de entrada secadora (%)"] = pd.to_numeric(
+    grafico_hum["Humedad de entrada secadora (%)"],
+    errors="coerce"
+)
+
+grafico_hum["Humedad salida secadora (%)"] = pd.to_numeric(
+    grafico_hum["Humedad salida secadora (%)"],
+    errors="coerce"
+)
+
+grafico_hum = grafico_hum.tail(60)
+
+fig_hum = px.line(
+    grafico_hum,
+    x="Marca temporal",
+    y=[
+        "Humedad de entrada secadora (%)",
+        "Humedad salida secadora (%)"
+    ],
+    markers=True,
+    title="Humedad de Entrada vs Humedad de Salida"
+)
+
+fig_hum.update_layout(
+    height=600,
+    xaxis_title="Fecha y Hora",
+    yaxis_title="Humedad (%)"
+)
+
+st.plotly_chart(
+  
+
 # ======================================
 # PARTICIPACION POR OPERADOR
 # ======================================
