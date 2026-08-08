@@ -709,7 +709,7 @@ fig_hum.update_layout(
 )
 
 st.plotly_chart(
-  
+)  
 
 # ======================================
 # PARTICIPACION POR OPERADOR
