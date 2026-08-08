@@ -737,6 +737,97 @@ try:
 
     # Separación por día
 
+    dias = (
+        grafico_hum["Marca temporal"]
+        .dt.normalize()
+        .unique()
+    )
+
+    for dia in dias:
+
+        fig_hum.add_vline(
+            x=dia,
+            line_width=1,
+            line_dash="dash",
+            line_color="lightgray"
+        )
+
+    fig_hum.update_layout(
+        title={
+            "text":
+            "Humedad de Entrada y Salida de Secadora",
+            "x": 0.5
+        },
+
+        height=900,
+
+        plot_bgcolor="white",
+        paper_bgcolor="white",
+
+        font=dict(
+            size=14,
+            color="black"
+        ),
+
+        title_font=dict(
+            size=28,
+            color="black"
+        ),
+
+        legend=dict(
+            orientation="h",
+            y=1.1,
+            x=0.3,
+            font=dict(size=14)
+        ),
+
+        xaxis_title="Fecha y Hora",
+        yaxis_title="Humedad (%)",
+
+        hovermode="x unified"
+    )
+
+    fig_hum.update_xaxes(
+        showgrid=True,
+        gridcolor="#E5E5E5",
+
+        tickfont=dict(
+            size=12,
+            color="black"
+        ),
+
+        title_font=dict(
+            size=18,
+            color="black"
+        )
+    )
+
+    fig_hum.update_yaxes(
+        showgrid=True,
+        gridcolor="#E5E5E5",
+
+        tickfont=dict(
+            size=12,
+            color="black"
+        ),
+
+        title_font=dict(
+            size=18,
+            color="black"
+        )
+    )
+
+    st.plotly_chart(
+        fig_hum,
+        use_container_width=True
+    )
+
+except Exception as e:
+
+    st.error(
+        f"Error en gráfico de humedades: {e}"
+    )
+
    
 # ======================================
 # PARTICIPACION POR OPERADOR
