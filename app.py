@@ -705,10 +705,63 @@ try:
         markers=True
     )
 
+    # Colores de las líneas
+
+    fig_hum.data[0].line.color = "blue"
+    fig_hum.data[1].line.color = "red"
+
+    fig_hum.data[0].line.width = 3
+    fig_hum.data[1].line.width = 3
+
+    # Límites de control humedad salida
+
+    fig_hum.add_hline(
+        y=6,
+        line_dash="dot",
+        line_color="green"
+    )
+
+    fig_hum.add_hline(
+        y=8,
+        line_dash="dot",
+        line_color="green"
+    )
+
+    # Separación visual por día
+
+    dias = (
+        grafico_hum["Marca temporal"]
+        .dt.normalize()
+        .unique()
+    )
+
+    for dia in dias:
+
+        fig_hum.add_vline(
+            x=dia,
+            line_width=1,
+            line_dash="dash",
+            line_color="gray"
+        )
+
     fig_hum.update_layout(
-        height=600,
+        title="Humedad Entrada vs Salida de Secadora",
+        height=650,
+        plot_bgcolor="white",
+        paper_bgcolor="white",
         xaxis_title="Fecha y Hora",
-        yaxis_title="Humedad (%)"
+        yaxis_title="Humedad (%)",
+        legend_title="Variables"
+    )
+
+    fig_hum.update_xaxes(
+        showgrid=True,
+        gridcolor="lightgray"
+    )
+
+    fig_hum.update_yaxes(
+        showgrid=True,
+        gridcolor="lightgray"
     )
 
     st.plotly_chart(
@@ -721,7 +774,6 @@ except Exception as e:
     st.error(
         f"Error en gráfico de humedades: {e}"
     )
-
 # ======================================
 # PARTICIPACION POR OPERADOR
 # ======================================
