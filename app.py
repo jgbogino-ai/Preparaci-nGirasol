@@ -694,6 +694,8 @@ try:
 
     grafico_hum = grafico_hum.dropna()
 
+    # Últimos 60 registros
+
     grafico_hum = grafico_hum.tail(60)
 
     fig_hum = px.line(
@@ -706,74 +708,61 @@ try:
         markers=True
     )
 
-    # Nombres de curvas
+    # Nombres
 
     fig_hum.data[0].name = "Humedad Entrada"
     fig_hum.data[1].name = "Humedad Salida"
 
     # Colores
 
-    fig_hum.data[0].line.color = "#0052CC"
-    fig_hum.data[1].line.color = "#D62728"
+    fig_hum.data[0].line.color = "blue"
+    fig_hum.data[1].line.color = "red"
 
-    # Líneas más finas
+    # Estilo de líneas
 
     fig_hum.update_traces(
         line=dict(width=2),
         marker=dict(size=5)
     )
 
-   # ======================================
-# LINEAS OBJETIVO
-# ======================================
+    # Línea objetivo humedad entrada
 
-# Humedad de entrada objetivo
-
-fig_hum.add_hline(
-    y=9.0,
-    line_color="orange",
-    line_width=2,
-    line_dash="dash",
-    annotation_text="Humedad Entrada a Secadora Objetivo 9.0%",
-    annotation_position="top left",
-    annotation_font_size=14
-)
-
-# Humedad de salida objetivo
-
-fig_hum.add_hline(
-    y=7.5,
-    line_color="green",
-    line_width=2,
-    line_dash="dash",
-    annotation_text="Humedad Salida de Secadora Objetivo 7.5%",
-    annotation_position="bottom left",
-    annotation_font_size=14
-)
-
-    # Separación por día
-
-    dias = (
-        grafico_hum["Marca temporal"]
-        .dt.normalize()
-        .unique()
+    fig_hum.add_hline(
+        y=9.0,
+        line_color="orange",
+        line_width=2,
+        line_dash="dash",
+        annotation_text="Humedad Entrada a Secadora Objetivo 9%",
+        annotation_position="top left"
     )
+
+    # Línea objetivo humedad salida
+
+    fig_hum.add_hline(
+        y=7.5,
+        line_color="green",
+        line_width=2,
+        line_dash="dash",
+        annotation_text="Humedad Salida de Secadora Objetivo 7.5%",
+        annotation_position="bottom left"
+    )
+
+    # Separación visual por día
+
+    dias = grafico_hum["Marca temporal"].dt.normalize().unique()
 
     for dia in dias:
 
         fig_hum.add_vline(
             x=dia,
             line_width=1,
-            line_dash="dash",
+            line_dash="dot",
             line_color="lightgray"
         )
 
     fig_hum.update_layout(
 
-        title={
-            "text": "Humedad Entrada vs Salida de Secadora",
-            "x": 0.5
-        },
+        title="Humedad Entrada vs Salida de Secadora",
 
         height=600,
 
@@ -786,50 +775,35 @@ fig_hum.add_hline(
         ),
 
         title_font=dict(
-            size=24,
+            size=22,
             color="black"
         ),
 
         legend=dict(
             orientation="h",
-            y=1.08,
+            y=1.05,
             x=0.25,
             font=dict(
-                size=16,
+                size=14,
                 color="black"
             )
         ),
 
-        xaxis_title="Fecha y Hora",
-        yaxis_title="Humedad (%)",
+        hovermode="x unified",
 
-        hovermode="x unified"
+        xaxis_title="Fecha y Hora",
+
+        yaxis_title="Humedad (%)"
     )
 
     fig_hum.update_xaxes(
         showgrid=True,
-        gridcolor="#E5E5E5",
-        tickfont=dict(
-            size=12,
-            color="black"
-        ),
-        title_font=dict(
-            size=20,
-            color="black"
-        )
+        gridcolor="#E5E5E5"
     )
 
     fig_hum.update_yaxes(
         showgrid=True,
-        gridcolor="#E5E5E5",
-        tickfont=dict(
-            size=12,
-            color="black"
-        ),
-        title_font=dict(
-            size=20,
-            color="black"
-        )
+        gridcolor="#E5E5E5"
     )
 
     st.plotly_chart(
@@ -842,7 +816,6 @@ except Exception as e:
     st.error(
         f"Error en gráfico de humedades: {e}"
     )
-   
 # ======================================
 # PARTICIPACION POR OPERADOR
 # ======================================
