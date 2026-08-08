@@ -660,6 +660,7 @@ except Exception as e:
     st.error(
         f"Error al mostrar registros: {e}"
     )
+
 # ======================================
 # GRAFICO HUMEDADES
 # ======================================
@@ -693,8 +694,6 @@ try:
 
     grafico_hum = grafico_hum.dropna()
 
-    # Ultimos 60 registros
-
     grafico_hum = grafico_hum.tail(60)
 
     fig_hum = px.line(
@@ -707,32 +706,31 @@ try:
         markers=True
     )
 
+    # Nombres de curvas
+
+    fig_hum.data[0].name = "Humedad Entrada"
+    fig_hum.data[1].name = "Humedad Salida"
+
     # Colores
 
     fig_hum.data[0].line.color = "#0052CC"
     fig_hum.data[1].line.color = "#D62728"
 
-    # Grosor de líneas y marcadores
+    # Líneas más finas
 
     fig_hum.update_traces(
         line=dict(width=2),
         marker=dict(size=5)
     )
 
-    # Línea objetivo humedad salida
+    # Línea objetivo humedad entrada
 
     fig_hum.add_hline(
-        y=6,
-        line_color="green",
-        line_dash="dot",
-        annotation_text="Mínimo 6%"
-    )
-
-    fig_hum.add_hline(
-        y=8,
-        line_color="green",
-        line_dash="dot",
-        annotation_text="Máximo 8%"
+        y=9.5,
+        line_color="orange",
+        line_width=2,
+        line_dash="dash",
+        annotation_text="Objetivo 9.5%"
     )
 
     # Separación por día
@@ -753,13 +751,13 @@ try:
         )
 
     fig_hum.update_layout(
+
         title={
-            "text":
-            "Humedad de Entrada y Salida de Secadora",
+            "text": "Humedad Entrada vs Salida de Secadora",
             "x": 0.5
         },
 
-        height=900,
+        height=600,
 
         plot_bgcolor="white",
         paper_bgcolor="white",
@@ -770,15 +768,18 @@ try:
         ),
 
         title_font=dict(
-            size=28,
+            size=24,
             color="black"
         ),
 
         legend=dict(
             orientation="h",
-            y=1.1,
-            x=0.3,
-            font=dict(size=14)
+            y=1.08,
+            x=0.25,
+            font=dict(
+                size=16,
+                color="black"
+            )
         ),
 
         xaxis_title="Fecha y Hora",
@@ -790,14 +791,12 @@ try:
     fig_hum.update_xaxes(
         showgrid=True,
         gridcolor="#E5E5E5",
-
         tickfont=dict(
             size=12,
             color="black"
         ),
-
         title_font=dict(
-            size=18,
+            size=20,
             color="black"
         )
     )
@@ -805,14 +804,12 @@ try:
     fig_hum.update_yaxes(
         showgrid=True,
         gridcolor="#E5E5E5",
-
         tickfont=dict(
             size=12,
             color="black"
         ),
-
         title_font=dict(
-            size=18,
+            size=20,
             color="black"
         )
     )
@@ -827,7 +824,6 @@ except Exception as e:
     st.error(
         f"Error en gráfico de humedades: {e}"
     )
-
    
 # ======================================
 # PARTICIPACION POR OPERADOR
