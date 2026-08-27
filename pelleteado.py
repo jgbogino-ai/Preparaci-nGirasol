@@ -26,7 +26,7 @@ df = cargar_datos()
 
 
 df.columns = df.columns.str.strip()
-st.write(df.columns.tolist())
+
 df["Marca temporal"] = pd.to_datetime(
     df["Marca temporal"],
     dayfirst=True,
