@@ -373,7 +373,9 @@ registros["Marca temporal"] = (
 registros["Humedad de pellet de girasol (correo laboratorio)"] = pd.to_numeric(
     registros["Humedad de pellet de girasol (correo laboratorio)"],
     errors="coerce"
-).round(1)
+).map(
+    lambda x: f"{x:.1f}" if pd.notnull(x) else ""
+)
 
 st.table(registros)
 
