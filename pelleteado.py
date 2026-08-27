@@ -342,18 +342,24 @@ tarjeta(
 )
 
 # ==================================================
-# ULTIMAS 15 CARGAS
+# ULTIMAS 24 CARGAS
 # ==================================================
 
-st.subheader("📋 Últimas 15 cargas")
+st.subheader(
+    "📋 Últimas 24 cargas y engrases"
+)
 
 registros = df[
     [
         "Marca temporal",
         "Operador",
-        "Supervisor"
+        "Horario de engrase de rolos",
+        "Horario de engrase de ejes",
+        "Humedad de pellet de girasol (correo laboratorio)",
+        "Destino de pellet de girasol",
+        "Número de silo destino"
     ]
-].tail(15)
+].tail(24)
 
 registros = registros.sort_values(
     by="Marca temporal",
@@ -364,6 +370,10 @@ registros["Marca temporal"] = (
     registros["Marca temporal"]
     .dt.strftime("%d/%m/%Y %H:%M")
 )
+registros["Humedad de pellet de girasol (correo laboratorio)"] = pd.to_numeric(
+    registros["Humedad de pellet de girasol (correo laboratorio)"],
+    errors="coerce"
+).round(1)
 
 st.table(registros)
 
