@@ -114,10 +114,13 @@ with c1:
     )
 
 with c2:
-    st.metric(
-        "Caudal Ext.",
-        round(float(ultimo["CAUDAL A EXTRACTOR (lt/h)"]), 0)
-    )
+
+    tk34 = valor_seguro("NIVEL TK34 (%)")
+
+    if tk34 is None:
+        st.metric("Nivel TK34", "Sin dato")
+    else:
+        st.metric("Nivel TK34", f"{tk34:.1f}%")
 
 with c3:
     st.metric(
