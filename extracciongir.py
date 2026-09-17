@@ -105,30 +105,56 @@ ultima_carga
 
 st.subheader("📊 Indicadores Principales")
 
-c1, c2, c3, c4 = st.columns(4)
+c1, c2, c3, c4, c5, c6 = st.columns(6)
 
-c1.metric(
-    "Caudal Destilación",
-    valor_seguro("CAUDAL DESTILACIÓN (lt/h)")
-)
+with c1:
+    st.metric(
+        "Caudal Destilación",
+        round(float(ultimo["CAUDAL DESTILACIÓN (lt/h)"]), 0)
+    )
 
-c2.metric(
-    "Caudal Extractor",
-    valor_seguro("CAUDAL A EXTRACTOR (lt/h)")
-)
+with c2:
+    st.metric(
+        "Caudal Extractor",
+        round(float(ultimo["CAUDAL A EXTRACTOR (lt/h)"]), 0)
+    )
 
-temp_ext = valor_seguro("EXTRACTOR TEMPERATURA (°C)")
+with c3:
+    st.metric(
+        "Temp. Extractor",
+        round(float(ultimo["EXTRACTOR TEMPERATURA (°C)"]), 1)
+    )
 
-c3.metric(
-    "Temp. Extractor",
-    temp_ext
-)
+with c4:
+    st.metric(
+        "Densidad",
+        round(float(ultimo["DENSIDAD DESTILACIÓN (kg/m3)"]), 1)
+    )
 
-c4.metric(
-    "Densidad",
-    valor_seguro("DENSIDAD DESTILACIÓN (kg/m3)")
-)
+with c5:
+    st.metric(
+        "TK Destino",
+        str(ultimo["# TK DESTINO CRUDO"])
+    )
 
+with c6:
+
+    espacio = pd.to_numeric(
+        ultimo["cm ESPACIO DESTINO CRUDO"],
+        errors="coerce"
+    )
+
+    if pd.isna(espacio):
+        st.metric("Espacio Libre TK", "Sin dato")
+
+    elif espacio < 50:
+        st.error(f"🔴 {espacio:.0f} cm")
+
+    elif espacio < 100:
+        st.warning(f"🟡 {espacio:.0f} cm")
+
+    else:
+        st.success(f"🟢 {espacio:.0f} cm")
 # ==================================================
 # VACIOS Y SOLVENTE
 # ==================================================
@@ -184,7 +210,8 @@ c2.metric(
 
 st.subheader("🚦 Estado Operativo")
 
-c1, c2, c3, c4 = st.columns(4)
+c1, c2, c3, c4, c5, c6, c7 = st.columns(7)
+
 
 # ==========================================
 # EXTRACTOR
@@ -210,7 +237,79 @@ with c1:
 
     else:
         st.error(f"🔴 {temp_ext:.1f} °C")
+# ACEITE MINERAL ENTRADA ABSORBEDORA
 
+aceite_abs = valor_seguro(
+    "Temperatura de aceite mineral entrada a absorbedora (°C)"
+)
+
+with c5:
+
+    st.markdown("### Aceite Abs.")
+
+    if aceite_abs is None:
+        st.warning("Sin dato")
+
+    elif aceite_abs < 25:
+        st.error(f"🔴 {aceite_abs:.1f} °C")
+
+    elif aceite_abs <= 31:
+        st.success(f"🟢 {aceite_abs:.1f} °C")
+
+    elif aceite_abs <= 35:
+        st.warning(f"🟡 {aceite_abs:.1f} °C")
+
+    else:
+        st.error(f"🔴 {aceite_abs:.1f} °C")
+
+
+# INGRESO EXPELLER
+
+temp_expeller = valor_seguro(
+    "Temperatura de ingreso de expeller (°C)"
+)
+
+with c6:
+
+    st.markdown("### Expeller")
+
+    if temp_expeller is None:
+        st.warning("Sin dato")
+
+    elif temp_expeller < 50:
+        st.error(f"🔴 {temp_expeller:.1f} °C")
+
+    elif temp_expeller < 55:
+        st.warning(f"🟡 {temp_expeller:.1f} °C")
+
+    elif temp_expeller <= 60:
+        st.success(f"🟢 {temp_expeller:.1f} °C")
+
+    else:
+        st.error(f"🔴 {temp_expeller:.1f} °C")
+
+
+# SALIDA TORRE
+
+temp_torre = valor_seguro(
+    "Temperatura agua salida de torre (°C)"
+)
+
+with c7:
+
+    st.markdown("### Salida Torre")
+
+    if temp_torre is None:
+        st.warning("Sin dato")
+
+    elif temp_torre <= 26:
+        st.success(f"🟢 {temp_torre:.1f} °C")
+
+    elif temp_torre <= 30:
+        st.warning(f"🟡 {temp_torre:.1f} °C")
+
+    else:
+        st.error(f"🔴 {temp_torre:.1f} °C")
 
 # ==========================================
 # SALIDA TOSTER
