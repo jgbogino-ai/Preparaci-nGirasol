@@ -6,7 +6,7 @@ import plotly.express as px
 # CONFIGURACION
 # ==================================================
 
-URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQAJcBxFTNaLQ6cpo7rMLhYSbqpGks79AztDgPULIobXyB1gHMyZI7TOVJg2zm62PJq7CQlN7pMie2N/pub?output=csv"
+URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQAJcBxFTNaLQ6cpo7rMLhYSbqpGks79AztDgPULIobXyB1gHMyZI7TOVJg2zm62PJq7CQlN7pMie2N/pub?gid=884320541&single=true&output=csv"
 
 st.set_page_config(
     page_title="extracción",
@@ -30,9 +30,7 @@ def cargar_datos():
 df = cargar_datos()
 
 df.columns = df.columns.str.strip()
-df.columns = df.columns.str.replace(r"\s+", " ", regex=True)
-st.write(df.columns.tolist())
-st.stop()
+
 df["Marca temporal"] = pd.to_datetime(
     df["Marca temporal"],
     dayfirst=True,
