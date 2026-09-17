@@ -47,7 +47,10 @@ st.title("🌻 Dashboard Extracción Girasol")
 # HORA ACTUAL
 # ==================================================
 
-ahora = pd.Timestamp.now()
+from datetime import datetime
+from zoneinfo import ZoneInfo
+
+ahora = datetime.now(ZoneInfo("America/Argentina/Buenos_Aires"))
 
 st.info(
     f"🕒 Hora actual: {ahora.strftime('%d/%m/%Y %H:%M')}"
