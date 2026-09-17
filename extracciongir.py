@@ -92,7 +92,13 @@ def valor_seguro(columna):
         return None
 
     return float(valor)
+# ==================================================
+# ULTIMO REGISTRO
+# ==================================================
 
+ahora = pd.Timestamp.now()
+
+ultima_carga 
 # ==================================================
 # KPI PRINCIPALES
 # ==================================================
@@ -173,78 +179,114 @@ c2.metric(
 )
 
 # ==================================================
-# TEMPERATURAS
+# SEMAFOROS OPERATIVOS
 # ==================================================
 
-st.subheader("🌡️ Temperaturas")
+st.subheader("🚦 Estado Operativo")
 
-fig = px.line(
-    df,
-    x="Marca temporal",
-    y=[
-        "EXTRACTOR TEMPERATURA (°C)",
-        "TOSTER TEMPERATURA PISO (°C)",
-        "TOSTER TEMPERATURA GASES (°C)",
-        "ECONOMIZADOR 60 TEMPERATURA (°C)"
-    ]
+c1, c2, c3, c4 = st.columns(4)
+
+# ==========================================
+# EXTRACTOR
+# ==========================================
+
+temp_ext = valor_seguro("EXTRACTOR TEMPERATURA (°C)")
+
+with c1:
+
+    st.markdown("### Extractor")
+
+    if temp_ext is None:
+        st.warning("Sin dato")
+
+    elif temp_ext < 50:
+        st.error(f"🔴 {temp_ext:.1f} °C")
+
+    elif temp_ext < 55:
+        st.warning(f"🟡 {temp_ext:.1f} °C")
+
+    elif temp_ext <= 62:
+        st.success(f"🟢 {temp_ext:.1f} °C")
+
+    else:
+        st.error(f"🔴 {temp_ext:.1f} °C")
+
+
+# ==========================================
+# SALIDA TOSTER
+# ==========================================
+
+temp_piso = valor_seguro("TOSTER TEMPERATURA PISO (°C)")
+
+with c2:
+
+    st.markdown("### Salida Toaster")
+
+    if temp_piso is None:
+        st.warning("Sin dato")
+
+    elif temp_piso < 100:
+        st.error(f"🔴 {temp_piso:.1f} °C")
+
+    elif temp_piso <= 120:
+        st.success(f"🟢 {temp_piso:.1f} °C")
+
+    else:
+        st.error(f"🔴 {temp_piso:.1f} °C")
+
+
+# ==========================================
+# GASES TOSTER
+# ==========================================
+
+temp_gases = valor_seguro("TOSTER TEMPERATURA GASES (°C)")
+
+with c3:
+
+    st.markdown("### Gases Toaster")
+
+    if temp_gases is None:
+        st.warning("Sin dato")
+
+    elif temp_gases < 70:
+        st.error(f"🔴 {temp_gases:.1f} °C")
+
+    elif temp_gases < 75:
+        st.warning(f"🟡 {temp_gases:.1f} °C")
+
+    elif temp_gases <= 85:
+        st.success(f"🟢 {temp_gases:.1f} °C")
+
+    else:
+        st.error(f"🔴 {temp_gases:.1f} °C")
+
+
+# ==========================================
+# ACEITE MINERAL CALENTADOR 121
+# ==========================================
+
+aceite = valor_seguro(
+    "ACEITE MINERAL CALENTADOR 121 TEMPERATURA (°C)"
 )
 
-st.plotly_chart(fig, use_container_width=True)
+with c4:
 
-# ==================================================
-# VACIOS
-# ==================================================
+    st.markdown("### Aceite Mineral")
 
-st.subheader("⚙️ Tendencia de Vacíos")
+    if aceite is None:
+        st.warning("Sin dato")
 
-fig = px.line(
-    df,
-    x="Marca temporal",
-    y=[
-        "EXTRACTOR VACÍO (mmca)",
-        "TOSTER VACÍO (mmHg)",
-        "BAJO VACÍO (mmHg)",
-        "ALTO VACÍO (mmHg)"
-    ]
-)
+    elif aceite < 105:
+        st.error(f"🔴 {aceite:.1f} °C")
 
-st.plotly_chart(fig, use_container_width=True)
+    elif aceite <= 112:
+        st.success(f"🟢 {aceite:.1f} °C")
 
-# ==================================================
-# CAUDALES
-# ==================================================
+    elif aceite <= 115:
+        st.warning(f"🟡 {aceite:.1f} °C")
 
-st.subheader("📈 Tendencia de Caudales")
-
-fig = px.line(
-    df,
-    x="Marca temporal",
-    y=[
-        "CAUDAL DESTILACIÓN (lt/h)",
-        "CAUDAL A EXTRACTOR (lt/h)",
-        "CAUDAL ACEITE MINERAL (lt/hr)"
-    ]
-)
-
-st.plotly_chart(fig, use_container_width=True)
-
-# ==================================================
-# NIVELES
-# ==================================================
-
-st.subheader("📦 Tendencia de Niveles")
-
-fig = px.line(
-    df,
-    x="Marca temporal",
-    y=[
-        "NIVEL TK34 (%)",
-        "NIVEL TK17 (%)"
-    ]
-)
-
-st.plotly_chart(fig, use_container_width=True)
-
+    else:
+        st.error(f"🔴 {aceite:.1f} °C")
 # ==================================================
 # ULTIMOS 24 REGISTROS
 # ==================================================
