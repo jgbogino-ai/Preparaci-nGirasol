@@ -105,23 +105,23 @@ ultima_carga
 
 st.subheader("📊 Indicadores Principales")
 
-c1, c2, c3, c4, c5, c6 = st.columns(6)
+c1, c2, c3, c4, c5, c6, c7, c8, c9, c10 = st.columns(10)
 
 with c1:
     st.metric(
-        "Caudal Destilación",
+        "Caudal Dest.",
         round(float(ultimo["CAUDAL DESTILACIÓN (lt/h)"]), 0)
     )
 
 with c2:
     st.metric(
-        "Caudal Extractor",
+        "Caudal Ext.",
         round(float(ultimo["CAUDAL A EXTRACTOR (lt/h)"]), 0)
     )
 
 with c3:
     st.metric(
-        "Temp. Extractor",
+        "Extractor",
         round(float(ultimo["EXTRACTOR TEMPERATURA (°C)"]), 1)
     )
 
@@ -138,71 +138,35 @@ with c5:
     )
 
 with c6:
-
-    espacio = pd.to_numeric(
-        ultimo["cm ESPACIO DESTINO CRUDO"],
-        errors="coerce"
+    st.metric(
+        "Espacio TK",
+        f"{ultimo['cm ESPACIO DESTINO CRUDO']} cm"
     )
 
-    if pd.isna(espacio):
-        st.metric("Espacio Libre TK", "Sin dato")
+with c7:
+    st.metric(
+        "Vacío Extr.",
+        valor_seguro("EXTRACTOR VACÍO (mmca)")
+    )
 
-    elif espacio < 50:
-        st.error(f"🔴 {espacio:.0f} cm")
+with c8:
+    st.metric(
+        "Vacío Toaster",
+        valor_seguro("TOSTER VACÍO (mmHg)")
+    )
 
-    elif espacio < 100:
-        st.warning(f"🟡 {espacio:.0f} cm")
+with c9:
+    st.metric(
+        "TKA",
+        valor_seguro("TKA SOLVENTE STOCK (lt)")
+    )
 
-    else:
-        st.success(f"🟢 {espacio:.0f} cm")
-# ==================================================
-# VACIOS Y SOLVENTE
-# ==================================================
+with c10:
+    st.metric(
+        "TKB",
+        valor_seguro("TKB SOLVENTE STOCK (lt)")
+    )
 
-st.subheader("⚙️ Vacíos y Solvente")
-
-c1, c2, c3, c4 = st.columns(4)
-
-c1.metric(
-    "Vacío Extractor",
-    valor_seguro("EXTRACTOR VACÍO (mmca)")
-)
-
-c2.metric(
-    "Vacío Toaster",
-    valor_seguro("TOSTER VACÍO (mmHg)")
-)
-
-c3.metric(
-    "Stock TKA",
-    valor_seguro("TKA SOLVENTE STOCK (lt)")
-)
-
-c4.metric(
-    "Stock TKB",
-    valor_seguro("TKB SOLVENTE STOCK (lt)")
-)
-
-# ==================================================
-# NIVELES
-# ==================================================
-
-st.subheader("🛢️ Niveles")
-
-c1, c2 = st.columns(2)
-
-tk34 = valor_seguro("NIVEL TK34 (%)")
-tk17 = valor_seguro("NIVEL TK17 (%)")
-
-c1.metric(
-    "Nivel TK34",
-    "Sin dato" if tk34 is None else f"{tk34:.1f}%"
-)
-
-c2.metric(
-    "Nivel TK17",
-    "Sin dato" if tk17 is None else f"{tk17:.1f}%"
-)
 
 # ==================================================
 # SEMAFOROS OPERATIVOS
