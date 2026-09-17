@@ -43,7 +43,15 @@ ultimo = df.iloc[-1]
 
 st.title("🌻 Dashboard Extracción Girasol")
 
+# ==================================================
+# HORA ACTUAL
+# ==================================================
 
+ahora = pd.Timestamp.now()
+
+st.info(
+    f"🕒 Hora actual: {ahora.strftime('%d/%m/%Y %H:%M')}"
+)
 
 # ==================================================
 # ULTIMO REGISTRO
