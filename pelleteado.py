@@ -355,13 +355,14 @@ registros = df[
     [
         "Marca temporal",
         "Operador",
-        "Horario de engrase de rolos",
-        "Horario de engrase de ejes",
         "Humedad de pellet de girasol (correo laboratorio)",
         "Destino de pellet de girasol",
-        "Número de silo destino"
+        "Número de silo destino",
+        "Horario de  engrase de rolos",
+        "Horario de engrase de ejes"
     ]
 ].tail(24)
+`
 
 registros = registros.sort_values(
     by="Marca temporal",
