@@ -153,36 +153,35 @@ with c4:
     )
 
 with c5:
-    st.metric(
-        "TK Destino",
-        str(ultimo["# TK DESTINO CRUDO"])
-    )
 
-with c6:
+    tk_destino = str(ultimo["# TK DESTINO CRUDO"])
 
     espacio = pd.to_numeric(
         ultimo["cm ESPACIO DESTINO CRUDO"],
         errors="coerce"
     )
 
+    st.metric(
+        "TK Destino",
+        tk_destino
+    )
+
     if pd.isna(espacio):
 
-        st.metric(
-            "Espacio TK",
-            "Sin dato"
-        )
+        st.info("Espacio libre: Sin dato")
 
     elif espacio < 100:
 
         st.error(
-            f"🚨 SOLO {espacio:.0f} cm"
+            f"🚨 Espacio libre: {espacio:.0f} cm"
         )
 
     else:
 
         st.success(
-            f"✅ {espacio:.0f} cm"
+            f"✅ Espacio libre: {espacio:.0f} cm"
         )
+
 
 # -------------------------
 # FILA 2
