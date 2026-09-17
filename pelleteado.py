@@ -26,8 +26,7 @@ df = cargar_datos()
 
 
 df.columns = df.columns.str.strip()
-st.write("Columnas encontradas:")
-st.write(df.columns.tolist())
+
 df["Marca temporal"] = pd.to_datetime(
     df["Marca temporal"],
     dayfirst=True,
@@ -349,7 +348,9 @@ tarjeta(
 st.subheader(
     "📋 Últimas 24 cargas y engrases"
 )
-
+st.write("COLUMNAS DISPONIBLES")
+st.write(list(df.columns))
+st.stop()
 registros = df[
     [
         "Marca temporal",
