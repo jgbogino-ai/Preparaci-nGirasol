@@ -65,10 +65,24 @@ with c1:
 
 with c2:
 
+    operador_ultimo = str(ultimo["Operador"])
+
     if horas <= 2:
-        st.success(f"✅ Hace {horas:.1f} horas")
+
+        st.success(
+            f"✅ Hace {horas:.1f} hs\n\n"
+            f"Operador: {operador_ultimo}\n\n"
+            f"{ultima_carga.strftime('%d/%m %H:%M')}"
+        )
+
     else:
-        st.error(f"🚨 Hace {horas:.1f} horas")
+
+        st.error(
+            f"🚨 SIN REGISTROS RECIENTES\n\n"
+            f"Hace {horas:.1f} hs\n\n"
+            f"Operador: {operador_ultimo}\n\n"
+            f"{ultima_carga.strftime('%d/%m %H:%M')}"
+        )
 
 # ==================================================
 # ESTADO PLANTA
