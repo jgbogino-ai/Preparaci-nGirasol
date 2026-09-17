@@ -53,37 +53,37 @@ ultima_carga = df["Marca temporal"].max()
 
 horas = (ahora - ultima_carga).total_seconds() / 3600
 
+operador_ultimo = str(ultimo["Operador"])
+
 st.subheader("📡 Estado de Carga")
 
-c1, c2 = st.columns(2)
+if horas <= 2:
 
-with c1:
-    st.metric(
-        "Último Registro",
-        ultima_carga.strftime("%d/%m/%Y %H:%M")
+    st.success(
+        f"""
+✅ REGISTRO AL DÍA
+
+👤 Operador: {operador_ultimo}
+
+🕒 Último registro: {ultima_carga.strftime('%d/%m/%Y %H:%M')}
+
+⏱ Hace {horas:.1f} hs
+"""
     )
 
-with c2:
+else:
 
-    operador_ultimo = str(ultimo["Operador"])
+    st.error(
+        f"""
+🚨 SIN REGISTROS RECIENTES
 
-    if horas <= 2:
+👤 Operador: {operador_ultimo}
 
-        st.success(
-            f"✅ Hace {horas:.1f} hs\n\n"
-            f"Operador: {operador_ultimo}\n\n"
-            f"{ultima_carga.strftime('%d/%m %H:%M')}"
-        )
+🕒 Último registro: {ultima_carga.strftime('%d/%m/%Y %H:%M')}
 
-    else:
-
-        st.error(
-            f"🚨 SIN REGISTROS RECIENTES\n\n"
-            f"Hace {horas:.1f} hs\n\n"
-            f"Operador: {operador_ultimo}\n\n"
-            f"{ultima_carga.strftime('%d/%m %H:%M')}"
-        )
-
+⏱ Hace {horas:.1f} hs
+"""
+    )
 # ==================================================
 # ESTADO PLANTA
 # ==================================================
