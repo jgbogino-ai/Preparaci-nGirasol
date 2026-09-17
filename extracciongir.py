@@ -31,7 +31,8 @@ df = cargar_datos()
 
 df.columns = df.columns.str.strip()
 df.columns = df.columns.str.replace(r"\s+", " ", regex=True)
-
+st.write(df.columns.tolist())
+st.stop()
 df["Marca temporal"] = pd.to_datetime(
     df["Marca temporal"],
     dayfirst=True,
