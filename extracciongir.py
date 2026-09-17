@@ -24,7 +24,9 @@ st.success("Conexión exitosa")
 
 st.subheader("Columnas detectadas")
 
-st.write(df.columns.tolist())
+st.dataframe(
+    pd.DataFrame({"Columnas": df.columns})
+)
 
 st.subheader("Últimos registros")
 
