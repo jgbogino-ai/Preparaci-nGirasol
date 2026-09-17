@@ -109,7 +109,7 @@ st.subheader("📊 Indicadores Principales")
 # FILA 1
 # -------------------------
 
-c1, c2, c3, c4, c5 = st.columns(5)
+c1, c2, c3, c4, c5, c6 = st.columns(6)
 
 with c1:
     st.metric(
@@ -144,61 +144,10 @@ with c5:
         str(ultimo["# TK DESTINO CRUDO"])
     )
 
-# -------------------------
-# FILA 2
-# -------------------------
-
-c6, c7, c8, c9, c10 = st.columns(5)
-
 with c6:
 
     espacio = pd.to_numeric(
-        ultimo["cm ESPACIO DESTINO CRUDO"],
-        errors="coerce"
-    )
-
-    if pd.isna(espacio):
-
-        st.metric(
-            "Espacio TK",
-            "Sin dato"
-        )
-
-    elif espacio < 100:
-
-        st.error(
-            f"🚨 SOLO {espacio:.0f} cm LIBRES"
-        )
-
-    else:
-
-        st.success(
-            f"✅ {espacio:.0f} cm LIBRES"
-        )
-
-with c7:
-    st.metric(
-        "Vacío Extr.",
-        valor_seguro("EXTRACTOR VACÍO (mmca)")
-    )
-
-with c8:
-    st.metric(
-        "Vacío Toaster",
-        valor_seguro("TOSTER VACÍO (mmHg)")
-    )
-
-with c9:
-    st.metric(
-        "TKA",
-        valor_seguro("TKA SOLVENTE STOCK (lt)")
-    )
-
-with c10:
-    st.metric(
-        "TKB",
-        valor_seguro("TKB SOLVENTE STOCK (lt)")
-    )
+      
 # ==================================================
 # SEMAFOROS OPERATIVOS
 # ==================================================
