@@ -44,6 +44,33 @@ ultimo = df.iloc[-1]
 st.title("🌻 Dashboard Extracción Girasol")
 
 # ==================================================
+# ULTIMO REGISTRO
+# ==================================================
+
+ahora = pd.Timestamp.now()
+
+ultima_carga = df["Marca temporal"].max()
+
+horas = (ahora - ultima_carga).total_seconds() / 3600
+
+st.subheader("📡 Estado de Carga")
+
+c1, c2 = st.columns(2)
+
+with c1:
+    st.metric(
+        "Último Registro",
+        ultima_carga.strftime("%d/%m/%Y %H:%M")
+    )
+
+with c2:
+
+    if horas <= 2:
+        st.success(f"✅ Hace {horas:.1f} horas")
+    else:
+        st.error(f"🚨 Hace {horas:.1f} horas")
+
+# ==================================================
 # ESTADO PLANTA
 # ==================================================
 
@@ -55,6 +82,18 @@ else:
     st.error(f"⛔ Estado de Planta: {estado}")
 
 # ==================================================
+# FUNCION NUMERICA SEGURA
+# ==================================================
+
+def valor_seguro(columna):
+    valor = pd.to_numeric(ultimo[columna], errors="coerce")
+
+    if pd.isna(valor):
+        return None
+
+    return float(valor)
+
+# ==================================================
 # KPI PRINCIPALES
 # ==================================================
 
@@ -62,61 +101,55 @@ st.subheader("📊 Indicadores Principales")
 
 c1, c2, c3, c4 = st.columns(4)
 
-with c1:
-    st.metric(
-        "Caudal Destilación",
-        round(float(ultimo["CAUDAL DESTILACIÓN (lt/h)"]), 0)
-    )
+c1.metric(
+    "Caudal Destilación",
+    valor_seguro("CAUDAL DESTILACIÓN (lt/h)")
+)
 
-with c2:
-    st.metric(
-        "Caudal Extractor",
-        round(float(ultimo["CAUDAL A EXTRACTOR (lt/h)"]), 0)
-    )
+c2.metric(
+    "Caudal Extractor",
+    valor_seguro("CAUDAL A EXTRACTOR (lt/h)")
+)
 
-with c3:
-    st.metric(
-        "Temp. Extractor",
-        round(float(ultimo["EXTRACTOR TEMPERATURA (°C)"]), 1)
-    )
+temp_ext = valor_seguro("EXTRACTOR TEMPERATURA (°C)")
 
-with c4:
-    st.metric(
-        "Densidad",
-        round(float(ultimo["DENSIDAD DESTILACIÓN (kg/m3)"]), 1)
-    )
+c3.metric(
+    "Temp. Extractor",
+    temp_ext
+)
+
+c4.metric(
+    "Densidad",
+    valor_seguro("DENSIDAD DESTILACIÓN (kg/m3)")
+)
 
 # ==================================================
-# KPI SECUNDARIOS
+# VACIOS Y SOLVENTE
 # ==================================================
 
 st.subheader("⚙️ Vacíos y Solvente")
 
 c1, c2, c3, c4 = st.columns(4)
 
-with c1:
-    st.metric(
-        "Vacío Extractor",
-        round(float(ultimo["EXTRACTOR VACÍO (mmca)"]), 0)
-    )
+c1.metric(
+    "Vacío Extractor",
+    valor_seguro("EXTRACTOR VACÍO (mmca)")
+)
 
-with c2:
-    st.metric(
-        "Vacío Toaster",
-        round(float(ultimo["TOSTER VACÍO (mmHg)"]), 0)
-    )
+c2.metric(
+    "Vacío Toaster",
+    valor_seguro("TOSTER VACÍO (mmHg)")
+)
 
-with c3:
-    st.metric(
-        "Stock TKA",
-        round(float(ultimo["TKA SOLVENTE STOCK (lt)"]), 0)
-    )
+c3.metric(
+    "Stock TKA",
+    valor_seguro("TKA SOLVENTE STOCK (lt)")
+)
 
-with c4:
-    st.metric(
-        "Stock TKB",
-        round(float(ultimo["TKB SOLVENTE STOCK (lt)"]), 0)
-    )
+c4.metric(
+    "Stock TKB",
+    valor_seguro("TKB SOLVENTE STOCK (lt)")
+)
 
 # ==================================================
 # NIVELES
@@ -126,17 +159,18 @@ st.subheader("🛢️ Niveles")
 
 c1, c2 = st.columns(2)
 
-with c1:
-    st.metric(
-        "Nivel TK34",
-        f"{round(float(ultimo['NIVEL TK34 (%)']),1)} %"
-    )
+tk34 = valor_seguro("NIVEL TK34 (%)")
+tk17 = valor_seguro("NIVEL TK17 (%)")
 
-with c2:
-    st.metric(
-        "Nivel TK17",
-        f"{round(float(ultimo['NIVEL TK17 (%)']),1)} %"
-    )
+c1.metric(
+    "Nivel TK34",
+    "Sin dato" if tk34 is None else f"{tk34:.1f}%"
+)
+
+c2.metric(
+    "Nivel TK17",
+    "Sin dato" if tk17 is None else f"{tk17:.1f}%"
+)
 
 # ==================================================
 # TEMPERATURAS
@@ -152,10 +186,95 @@ fig = px.line(
         "TOSTER TEMPERATURA PISO (°C)",
         "TOSTER TEMPERATURA GASES (°C)",
         "ECONOMIZADOR 60 TEMPERATURA (°C)"
-    ],
-    markers=True
+    ]
 )
 
 st.plotly_chart(fig, use_container_width=True)
 
-# ====
+# ==================================================
+# VACIOS
+# ==================================================
+
+st.subheader("⚙️ Tendencia de Vacíos")
+
+fig = px.line(
+    df,
+    x="Marca temporal",
+    y=[
+        "EXTRACTOR VACÍO (mmca)",
+        "TOSTER VACÍO (mmHg)",
+        "BAJO VACÍO (mmHg)",
+        "ALTO VACÍO (mmHg)"
+    ]
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+# ==================================================
+# CAUDALES
+# ==================================================
+
+st.subheader("📈 Tendencia de Caudales")
+
+fig = px.line(
+    df,
+    x="Marca temporal",
+    y=[
+        "CAUDAL DESTILACIÓN (lt/h)",
+        "CAUDAL A EXTRACTOR (lt/h)",
+        "CAUDAL ACEITE MINERAL (lt/hr)"
+    ]
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+# ==================================================
+# NIVELES
+# ==================================================
+
+st.subheader("📦 Tendencia de Niveles")
+
+fig = px.line(
+    df,
+    x="Marca temporal",
+    y=[
+        "NIVEL TK34 (%)",
+        "NIVEL TK17 (%)"
+    ]
+)
+
+st.plotly_chart(fig, use_container_width=True)
+
+# ==================================================
+# ULTIMOS 24 REGISTROS
+# ==================================================
+
+st.subheader("📋 Últimos 24 Registros")
+
+st.dataframe(
+    df.tail(24),
+    use_container_width=True,
+    hide_index=True
+)
+
+# ==================================================
+# COMENTARIOS
+# ==================================================
+
+st.subheader("📝 Últimos Comentarios")
+
+if "COMENTARIOS:" in df.columns:
+
+    comentarios = df[
+        [
+            "Marca temporal",
+            "Operador",
+            "COMENTARIOS:"
+        ]
+    ].tail(10)
+
+    st.dataframe(
+        comentarios,
+        use_container_width=True,
+        hide_index=True
+    )
