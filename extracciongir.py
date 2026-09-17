@@ -60,10 +60,7 @@ st.info(
 # ULTIMO REGISTRO
 # ==================================================
 
-from datetime import datetime
-from zoneinfo import ZoneInfo
-
-ahora = datetime.now(ZoneInfo("America/Argentina/Buenos_Aires"))
+ahora = pd.Timestamp.now()
 
 ultima_carga = df["Marca temporal"].max()
 
