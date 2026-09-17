@@ -109,13 +109,8 @@ def valor_seguro(columna):
         return None
 
     return float(valor)
-# ==================================================
-# ULTIMO REGISTRO
-# ==================================================
 
-ahora = pd.Timestamp.now()
 
-ultima_carga 
 # ==================================================
 # KPI PRINCIPALES
 # ==================================================
