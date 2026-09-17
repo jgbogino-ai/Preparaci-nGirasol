@@ -8,7 +8,7 @@ import plotly.express as px
 
 st.set_page_config(
     page_title="Dashboard Extracción Girasol",
-    page_icon="🌻",
+    page_icon="💨",
     layout="wide"
 )
 
@@ -41,7 +41,7 @@ ultimo = df.iloc[-1]
 # TITULO
 # ==================================================
 
-st.title("🌻 Dashboard Extracción Girasol")
+st.title("💨 Dashboard Extracción Girasol")
 
 # ==================================================
 # HORA ACTUAL
