@@ -60,11 +60,12 @@ st.info(
 # ULTIMO REGISTRO
 # ==================================================
 
-ahora = pd.Timestamp.now()
-
 ultima_carga = df["Marca temporal"].max()
 
-horas = (ahora - ultima_carga).total_seconds() / 3600
+# usar la misma hora argentina que se muestra arriba
+ahora_local = ahora.replace(tzinfo=None)
+
+horas = (ahora_local - ultima_carga).total_seconds() / 3600
 
 operador_ultimo = str(ultimo["Operador"])
 
@@ -97,6 +98,7 @@ else:
 ⏱ Hace {horas:.1f} hs
 """
     )
+``
 # ==================================================
 # ESTADO PLANTA
 # ==================================================
