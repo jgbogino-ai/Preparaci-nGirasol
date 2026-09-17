@@ -147,6 +147,52 @@ with c5:
 with c6:
 
     espacio = pd.to_numeric(
+        ultimo["cm ESPACIO DESTINO CRUDO"],
+        errors="coerce"
+    )
+
+    if pd.isna(espacio):
+
+        st.metric(
+            "Espacio TK",
+            "Sin dato"
+        )
+
+    elif espacio < 100:
+
+        st.error(
+            f"🚨 SOLO {espacio:.0f} cm"
+        )
+
+    else:
+
+        st.success(
+            f"✅ {espacio:.0f} cm"
+        )
+
+# -------------------------
+# FILA 2
+# -------------------------
+
+c7, c8, c9 = st.columns(3)
+
+with c7:
+    st.metric(
+        "Vacío Extr.",
+        valor_seguro("EXTRACTOR VACÍO (mmca)")
+    )
+
+with c8:
+    st.metric(
+        "TKA",
+        valor_seguro("TKA SOLVENTE STOCK (lt)")
+    )
+
+with c9:
+    st.metric(
+        "TKB",
+        valor_seguro("TKB SOLVENTE STOCK (lt)")
+    )
       
 # ==================================================
 # SEMAFOROS OPERATIVOS
