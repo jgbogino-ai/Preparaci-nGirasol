@@ -49,6 +49,9 @@ st.title("🌻 Dashboard Extracción Girasol")
 # ULTIMO REGISTRO
 # ==================================================
 
+ahora = pd.Timestamp.now()
+
+ultima_carga = df["Marca temporal"].max()
 
 horas = (ahora - ultima_carga).total_seconds() / 3600
 
