@@ -105,7 +105,11 @@ ultima_carga
 
 st.subheader("📊 Indicadores Principales")
 
-c1, c2, c3, c4, c5, c6, c7, c8, c9, c10 = st.columns(10)
+# -------------------------
+# FILA 1
+# -------------------------
+
+c1, c2, c3, c4, c5 = st.columns(5)
 
 with c1:
     st.metric(
@@ -140,11 +144,37 @@ with c5:
         str(ultimo["# TK DESTINO CRUDO"])
     )
 
+# -------------------------
+# FILA 2
+# -------------------------
+
+c6, c7, c8, c9, c10 = st.columns(5)
+
 with c6:
-    st.metric(
-        "Espacio TK",
-        f"{ultimo['cm ESPACIO DESTINO CRUDO']} cm"
+
+    espacio = pd.to_numeric(
+        ultimo["cm ESPACIO DESTINO CRUDO"],
+        errors="coerce"
     )
+
+    if pd.isna(espacio):
+
+        st.metric(
+            "Espacio TK",
+            "Sin dato"
+        )
+
+    elif espacio < 100:
+
+        st.error(
+            f"🚨 SOLO {espacio:.0f} cm LIBRES"
+        )
+
+    else:
+
+        st.success(
+            f"✅ {espacio:.0f} cm LIBRES"
+        )
 
 with c7:
     st.metric(
@@ -169,8 +199,6 @@ with c10:
         "TKB",
         valor_seguro("TKB SOLVENTE STOCK (lt)")
     )
-
-
 # ==================================================
 # SEMAFOROS OPERATIVOS
 # ==================================================
