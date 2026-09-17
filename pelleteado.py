@@ -348,9 +348,7 @@ tarjeta(
 st.subheader(
     "📋 Últimas 24 cargas y engrases"
 )
-st.write("COLUMNAS DISPONIBLES")
-st.write(list(df.columns))
-st.stop()
+
 registros = df[
     [
         "Marca temporal",
