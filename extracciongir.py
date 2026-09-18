@@ -133,7 +133,7 @@ st.subheader("📊 Indicadores Principales")
 # FILA 1
 # -------------------------
 
-c1, c2, c3, c4, c5, c6 = st.columns(6)
+c1, c2, c3, c4, c5 = st.columns(5)
 
 with c1:
     st.metric(
@@ -142,13 +142,10 @@ with c1:
     )
 
 with c2:
-
-    tk34 = valor_seguro("NIVEL TK34 (%)")
-
-    if tk34 is None:
-        st.metric("Nivel TK34", "Sin dato")
-    else:
-        st.metric("Nivel TK34", f"{tk34:.1f}%")
+    st.metric(
+        "Tipo Aceite",
+        str(ultimo["Tipo de aceite"])
+    )
 
 with c3:
     st.metric(
@@ -191,8 +188,6 @@ with c5:
         st.success(
             f"✅ Espacio libre: {espacio:.0f} cm"
         )
-
-
 # -------------------------
 # FILA 2
 # -------------------------
