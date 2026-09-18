@@ -38,10 +38,26 @@ df = df.sort_values("Marca temporal")
 ultimo = df.iloc[-1]
 
 # ==================================================
-# TITULO
+# ENCABEZADO
 # ==================================================
 
-st.title("💨 Dashboard Extracción Girasol")
+col1, col2 = st.columns([1, 4])
+
+with col1:
+    st.image(
+        "logo glp.png",
+        width=180
+    )
+
+with col2:
+    st.markdown(
+        """
+        <h1 style="margin-top:15px;">
+        💨 Extracción Girasol
+        </h1>
+        """,
+        unsafe_allow_html=True
+    )
 
 # ==================================================
 # HORA ACTUAL
