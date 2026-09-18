@@ -156,7 +156,7 @@ c6.metric(
     "Tipo Producto",
     str(ultimo["Tipo de producto"])
 )
-`
+
 
 # ======================================
 # ALERTAS ACTIVAS
