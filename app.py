@@ -15,7 +15,27 @@ def cargar_datos():
 
 df = cargar_datos()
 df.columns = df.columns.str.strip()
+# ==================================================
+# ENCABEZADO
+# ==================================================
 
+col1, col2 = st.columns([1, 4])
+
+with col1:
+    st.image(
+        "logo glp.png",
+        width=180
+    )
+
+with col2:
+    st.markdown(
+        """
+        <h1 style="margin-top:15px;">
+        🌻 Preparación de Girasol
+        </h1>
+        """,
+        unsafe_allow_html=True
+    )
 st.title(" Preparación de Girasol")
 df["Marca temporal"] = pd.to_datetime(
     df["Marca temporal"],
