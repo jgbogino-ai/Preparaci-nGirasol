@@ -117,13 +117,15 @@ if temp_gases > 80:
 # ======================================
 # KPI
 # ======================================
+
 # Advertencia Humedad de Salida
 
 if hum_salida < 6 or hum_salida > 8:
     st.error(
         f"⚠ Humedad Salida Secadora fuera de rango: {hum_salida:.1f}%"
     )
-c1, c2, c3, c4 = st.columns(4)
+
+c1, c2, c3, c4, c5, c6 = st.columns(6)
 
 c1.metric(
     "Producción tn/h",
@@ -144,6 +146,17 @@ c4.metric(
     "Temp. Gases °C",
     round(temp_gases, 2)
 )
+
+c5.metric(
+    "Silo Diario",
+    str(ultimo["SILO DIARIO"])
+)
+
+c6.metric(
+    "Tipo Producto",
+    str(ultimo["Tipo de producto"])
+)
+`
 
 # ======================================
 # ALERTAS ACTIVAS
