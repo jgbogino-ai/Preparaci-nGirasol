@@ -229,25 +229,24 @@ temp_ext = valor_seguro("EXTRACTOR TEMPERATURA (°C)")
 with c1:
 
     st.markdown("""
-### Extractor
-<small style='color:#7FFF7F'>55 - 62 °C</small>
-""", unsafe_allow_html=True)
+    <div style="height:75px">
+    <b style="font-size:18px">Extractor</b><br>
+    <span style="color:#7FFF7F;font-size:14px">
+    55 - 62 °C
+    </span>
+    </div>
+    """, unsafe_allow_html=True)
 
     if temp_ext is None:
         st.warning("Sin dato")
-
     elif temp_ext < 50:
         st.error(f"🔴 {temp_ext:.1f} °C")
-
     elif temp_ext < 55:
         st.warning(f"🟡 {temp_ext:.1f} °C")
-
     elif temp_ext <= 62:
         st.success(f"🟢 {temp_ext:.1f} °C")
-
     else:
         st.error(f"🔴 {temp_ext:.1f} °C")
-
 
 # ==========================================
 # SALIDA TOSTER
@@ -258,22 +257,22 @@ temp_piso = valor_seguro("TOSTER TEMPERATURA PISO (°C)")
 with c2:
 
     st.markdown("""
-### Salida Toaster
-<small style='color:#7FFF7F'>100 - 120 °C</small>
-""", unsafe_allow_html=True)
+    <div style="height:75px">
+    <b style="font-size:18px">Salida Toaster</b><br>
+    <span style="color:#7FFF7F;font-size:14px">
+    100 - 120 °C
+    </span>
+    </div>
+    """, unsafe_allow_html=True)
 
     if temp_piso is None:
         st.warning("Sin dato")
-
     elif temp_piso < 100:
         st.error(f"🔴 {temp_piso:.1f} °C")
-
     elif temp_piso <= 120:
         st.success(f"🟢 {temp_piso:.1f} °C")
-
     else:
         st.error(f"🔴 {temp_piso:.1f} °C")
-
 
 # ==========================================
 # GASES TOSTER
@@ -284,28 +283,27 @@ temp_gases = valor_seguro("TOSTER TEMPERATURA GASES (°C)")
 with c3:
 
     st.markdown("""
-### Gases Toaster
-<small style='color:#7FFF7F'>75 - 85 °C</small>
-""", unsafe_allow_html=True)
+    <div style="height:75px">
+    <b style="font-size:18px">Gases Toaster</b><br>
+    <span style="color:#7FFF7F;font-size:14px">
+    75 - 85 °C
+    </span>
+    </div>
+    """, unsafe_allow_html=True)
 
     if temp_gases is None:
         st.warning("Sin dato")
-
     elif temp_gases < 70:
         st.error(f"🔴 {temp_gases:.1f} °C")
-
     elif temp_gases < 75:
         st.warning(f"🟡 {temp_gases:.1f} °C")
-
     elif temp_gases <= 85:
         st.success(f"🟢 {temp_gases:.1f} °C")
-
     else:
         st.error(f"🔴 {temp_gases:.1f} °C")
 
-
 # ==========================================
-# ACEITE MINERAL CALENTADOR 121
+# ACEITE MINERAL
 # ==========================================
 
 aceite = valor_seguro(
@@ -315,28 +313,27 @@ aceite = valor_seguro(
 with c4:
 
     st.markdown("""
-### Aceite Mineral
-<small style='color:#7FFF7F'>105 - 112 °C</small>
-""", unsafe_allow_html=True)
+    <div style="height:75px">
+    <b style="font-size:18px">Aceite Mineral</b><br>
+    <span style="color:#7FFF7F;font-size:14px">
+    105 - 112 °C
+    </span>
+    </div>
+    """, unsafe_allow_html=True)
 
     if aceite is None:
         st.warning("Sin dato")
-
     elif aceite < 105:
         st.error(f"🔴 {aceite:.1f} °C")
-
     elif aceite <= 112:
         st.success(f"🟢 {aceite:.1f} °C")
-
     elif aceite <= 115:
         st.warning(f"🟡 {aceite:.1f} °C")
-
     else:
         st.error(f"🔴 {aceite:.1f} °C")
 
-
 # ==========================================
-# ACEITE MINERAL ABSORBEDORA
+# ACEITE ABSORBEDORA
 # ==========================================
 
 aceite_abs = valor_seguro(
@@ -346,25 +343,24 @@ aceite_abs = valor_seguro(
 with c5:
 
     st.markdown("""
-### Aceite Abs.
-<small style='color:#7FFF7F'>25 - 31 °C</small>
-""", unsafe_allow_html=True)
+    <div style="height:75px">
+    <b style="font-size:18px">Aceite Abs.</b><br>
+    <span style="color:#7FFF7F;font-size:14px">
+    25 - 31 °C
+    </span>
+    </div>
+    """, unsafe_allow_html=True)
 
     if aceite_abs is None:
         st.warning("Sin dato")
-
     elif aceite_abs < 25:
         st.error(f"🔴 {aceite_abs:.1f} °C")
-
     elif aceite_abs <= 31:
         st.success(f"🟢 {aceite_abs:.1f} °C")
-
     elif aceite_abs <= 35:
         st.warning(f"🟡 {aceite_abs:.1f} °C")
-
     else:
         st.error(f"🔴 {aceite_abs:.1f} °C")
-
 
 # ==========================================
 # EXPELLER
@@ -377,25 +373,24 @@ temp_expeller = valor_seguro(
 with c6:
 
     st.markdown("""
-### Expeller
-<small style='color:#7FFF7F'>55 - 60 °C</small>
-""", unsafe_allow_html=True)
+    <div style="height:75px">
+    <b style="font-size:18px">Expeller</b><br>
+    <span style="color:#7FFF7F;font-size:14px">
+    55 - 60 °C
+    </span>
+    </div>
+    """, unsafe_allow_html=True)
 
     if temp_expeller is None:
         st.warning("Sin dato")
-
     elif temp_expeller < 50:
         st.error(f"🔴 {temp_expeller:.1f} °C")
-
     elif temp_expeller < 55:
         st.warning(f"🟡 {temp_expeller:.1f} °C")
-
     elif temp_expeller <= 60:
         st.success(f"🟢 {temp_expeller:.1f} °C")
-
     else:
         st.error(f"🔴 {temp_expeller:.1f} °C")
-
 
 # ==========================================
 # SALIDA TORRE
@@ -408,19 +403,20 @@ temp_torre = valor_seguro(
 with c7:
 
     st.markdown("""
-### Salida Torre
-<small style='color:#7FFF7F'>≤ 26 °C</small>
-""", unsafe_allow_html=True)
+    <div style="height:75px">
+    <b style="font-size:18px">Salida Torre</b><br>
+    <span style="color:#7FFF7F;font-size:14px">
+    ≤ 26 °C
+    </span>
+    </div>
+    """, unsafe_allow_html=True)
 
     if temp_torre is None:
         st.warning("Sin dato")
-
     elif temp_torre <= 26:
         st.success(f"🟢 {temp_torre:.1f} °C")
-
     elif temp_torre <= 30:
         st.warning(f"🟡 {temp_torre:.1f} °C")
-
     else:
         st.error(f"🔴 {temp_torre:.1f} °C")
 # ==================================================
