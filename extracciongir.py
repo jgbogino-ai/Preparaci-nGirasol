@@ -220,7 +220,6 @@ st.subheader("🚦 Estado Operativo")
 
 c1, c2, c3, c4, c5, c6, c7 = st.columns(7)
 
-
 # ==========================================
 # EXTRACTOR
 # ==========================================
@@ -229,7 +228,10 @@ temp_ext = valor_seguro("EXTRACTOR TEMPERATURA (°C)")
 
 with c1:
 
-    st.markdown("### Extractor")
+    st.markdown("""
+### Extractor
+<small style='color:#7FFF7F'>55 - 62 °C</small>
+""", unsafe_allow_html=True)
 
     if temp_ext is None:
         st.warning("Sin dato")
@@ -245,79 +247,7 @@ with c1:
 
     else:
         st.error(f"🔴 {temp_ext:.1f} °C")
-# ACEITE MINERAL ENTRADA ABSORBEDORA
 
-aceite_abs = valor_seguro(
-    "Temperatura de aceite mineral entrada a absorbedora (°C)"
-)
-
-with c5:
-
-    st.markdown("### Aceite Abs.")
-
-    if aceite_abs is None:
-        st.warning("Sin dato")
-
-    elif aceite_abs < 25:
-        st.error(f"🔴 {aceite_abs:.1f} °C")
-
-    elif aceite_abs <= 31:
-        st.success(f"🟢 {aceite_abs:.1f} °C")
-
-    elif aceite_abs <= 35:
-        st.warning(f"🟡 {aceite_abs:.1f} °C")
-
-    else:
-        st.error(f"🔴 {aceite_abs:.1f} °C")
-
-
-# INGRESO EXPELLER
-
-temp_expeller = valor_seguro(
-    "Temperatura de ingreso de expeller (°C)"
-)
-
-with c6:
-
-    st.markdown("### Expeller")
-
-    if temp_expeller is None:
-        st.warning("Sin dato")
-
-    elif temp_expeller < 50:
-        st.error(f"🔴 {temp_expeller:.1f} °C")
-
-    elif temp_expeller < 55:
-        st.warning(f"🟡 {temp_expeller:.1f} °C")
-
-    elif temp_expeller <= 60:
-        st.success(f"🟢 {temp_expeller:.1f} °C")
-
-    else:
-        st.error(f"🔴 {temp_expeller:.1f} °C")
-
-
-# SALIDA TORRE
-
-temp_torre = valor_seguro(
-    "Temperatura agua salida de torre (°C)"
-)
-
-with c7:
-
-    st.markdown("### Salida Torre")
-
-    if temp_torre is None:
-        st.warning("Sin dato")
-
-    elif temp_torre <= 26:
-        st.success(f"🟢 {temp_torre:.1f} °C")
-
-    elif temp_torre <= 30:
-        st.warning(f"🟡 {temp_torre:.1f} °C")
-
-    else:
-        st.error(f"🔴 {temp_torre:.1f} °C")
 
 # ==========================================
 # SALIDA TOSTER
@@ -327,7 +257,10 @@ temp_piso = valor_seguro("TOSTER TEMPERATURA PISO (°C)")
 
 with c2:
 
-    st.markdown("### Salida Toaster")
+    st.markdown("""
+### Salida Toaster
+<small style='color:#7FFF7F'>100 - 120 °C</small>
+""", unsafe_allow_html=True)
 
     if temp_piso is None:
         st.warning("Sin dato")
@@ -350,7 +283,10 @@ temp_gases = valor_seguro("TOSTER TEMPERATURA GASES (°C)")
 
 with c3:
 
-    st.markdown("### Gases Toaster")
+    st.markdown("""
+### Gases Toaster
+<small style='color:#7FFF7F'>75 - 85 °C</small>
+""", unsafe_allow_html=True)
 
     if temp_gases is None:
         st.warning("Sin dato")
@@ -378,7 +314,10 @@ aceite = valor_seguro(
 
 with c4:
 
-    st.markdown("### Aceite Mineral")
+    st.markdown("""
+### Aceite Mineral
+<small style='color:#7FFF7F'>105 - 112 °C</small>
+""", unsafe_allow_html=True)
 
     if aceite is None:
         st.warning("Sin dato")
@@ -394,6 +333,96 @@ with c4:
 
     else:
         st.error(f"🔴 {aceite:.1f} °C")
+
+
+# ==========================================
+# ACEITE MINERAL ABSORBEDORA
+# ==========================================
+
+aceite_abs = valor_seguro(
+    "Temperatura de aceite mineral entrada a absorbedora (°C)"
+)
+
+with c5:
+
+    st.markdown("""
+### Aceite Abs.
+<small style='color:#7FFF7F'>25 - 31 °C</small>
+""", unsafe_allow_html=True)
+
+    if aceite_abs is None:
+        st.warning("Sin dato")
+
+    elif aceite_abs < 25:
+        st.error(f"🔴 {aceite_abs:.1f} °C")
+
+    elif aceite_abs <= 31:
+        st.success(f"🟢 {aceite_abs:.1f} °C")
+
+    elif aceite_abs <= 35:
+        st.warning(f"🟡 {aceite_abs:.1f} °C")
+
+    else:
+        st.error(f"🔴 {aceite_abs:.1f} °C")
+
+
+# ==========================================
+# EXPELLER
+# ==========================================
+
+temp_expeller = valor_seguro(
+    "Temperatura de ingreso de expeller (°C)"
+)
+
+with c6:
+
+    st.markdown("""
+### Expeller
+<small style='color:#7FFF7F'>55 - 60 °C</small>
+""", unsafe_allow_html=True)
+
+    if temp_expeller is None:
+        st.warning("Sin dato")
+
+    elif temp_expeller < 50:
+        st.error(f"🔴 {temp_expeller:.1f} °C")
+
+    elif temp_expeller < 55:
+        st.warning(f"🟡 {temp_expeller:.1f} °C")
+
+    elif temp_expeller <= 60:
+        st.success(f"🟢 {temp_expeller:.1f} °C")
+
+    else:
+        st.error(f"🔴 {temp_expeller:.1f} °C")
+
+
+# ==========================================
+# SALIDA TORRE
+# ==========================================
+
+temp_torre = valor_seguro(
+    "Temperatura agua salida de torre (°C)"
+)
+
+with c7:
+
+    st.markdown("""
+### Salida Torre
+<small style='color:#7FFF7F'>≤ 26 °C</small>
+""", unsafe_allow_html=True)
+
+    if temp_torre is None:
+        st.warning("Sin dato")
+
+    elif temp_torre <= 26:
+        st.success(f"🟢 {temp_torre:.1f} °C")
+
+    elif temp_torre <= 30:
+        st.warning(f"🟡 {temp_torre:.1f} °C")
+
+    else:
+        st.error(f"🔴 {temp_torre:.1f} °C")
 # ==================================================
 # ULTIMOS 24 REGISTROS
 # ==================================================
