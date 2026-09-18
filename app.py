@@ -36,7 +36,7 @@ with col2:
         """,
         unsafe_allow_html=True
     )
-st.title(" Preparación de Girasol")
+
 df["Marca temporal"] = pd.to_datetime(
     df["Marca temporal"],
     dayfirst=True,
