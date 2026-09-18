@@ -445,23 +445,32 @@ st.dataframe(
 
 
 # ==================================================
-# COMENTARIOS
+# GRAFICO OPERADORES
 # ==================================================
 
-st.subheader("📝 Últimos Comentarios")
+st.subheader("🥧 Registros por Operador")
 
-if "COMENTARIOS:" in df.columns:
+operadores = (
+    df["Operador"]
+    .value_counts()
+    .reset_index()
+)
 
-    comentarios = df[
-        [
-            "Marca temporal",
-            "Operador",
-            "COMENTARIOS:"
-        ]
-    ].tail(10)
+operadores.columns = ["Operador", "Cantidad"]
 
-    st.dataframe(
-        comentarios,
-        use_container_width=True,
-        hide_index=True
-    )
+fig = px.pie(
+    operadores,
+    values="Cantidad",
+    names="Operador",
+    hole=0.4
+)
+
+fig.update_traces(
+    textposition="inside",
+    textinfo="percent+label"
+)
+
+st.plotly_chart(
+    fig,
+    use_container_width=True
+)
