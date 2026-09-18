@@ -420,16 +420,29 @@ with c7:
     else:
         st.error(f"🔴 {temp_torre:.1f} °C")
 # ==================================================
-# ULTIMOS 24 REGISTROS
+# ULTIMO REGISTRO
+# ==================================================
+
+st.subheader("📌 Último Registro")
+
+st.dataframe(
+    df.tail(1),
+    use_container_width=True,
+    hide_index=True
+)
+
+# ==================================================
+# HISTORIAL DE REGISTROS
 # ==================================================
 
 st.subheader("📋 Últimos 24 Registros")
 
 st.dataframe(
-    df.tail(24),
+    df.tail(24).iloc[::-1],
     use_container_width=True,
     hide_index=True
 )
+
 
 # ==================================================
 # COMENTARIOS
