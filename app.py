@@ -190,7 +190,7 @@ c6.metric(
 # ======================================
 
 def sem_lamina(v):
-    return ("🟢 VERDE","green") if v <= 0.9 else ("🔴 ROJO","red")
+    return ("🟢 VERDE","green") if v <= 0.95 else ("🔴 ROJO","red")
 
 def sem_prensa12(v):
     if v < 140:
