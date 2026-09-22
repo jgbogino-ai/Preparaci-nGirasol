@@ -305,6 +305,38 @@ def sem_basculante(v):
     else:
         return ("🟢 VERDE", "green")
 
+def sem_expeller(v):
+
+    if v < 12:
+        return ("🔴 ROJO", "red")
+
+    elif v < 14:
+        return ("🟡 AMARILLO", "orange")
+
+    elif v <= 16:
+        return ("🟢 VERDE", "green")
+
+    elif v <= 17:
+        return ("🟡 AMARILLO", "orange")
+
+    else:
+        return ("🔴 ROJO", "red")def sem_expeller(v):
+
+    if v < 12:
+        return ("🔴 ROJO", "red")
+
+    elif v < 14:
+        return ("🟡 AMARILLO", "orange")
+
+    elif v <= 16:
+        return ("🟢 VERDE", "green")
+
+    elif v <= 17:
+        return ("🟡 AMARILLO", "orange")
+
+    else:
+        return ("🔴 ROJO", "red")
+
 # ======================================
 # VARIABLES
 # ======================================
@@ -357,7 +389,13 @@ hum_sal = float(
 basculante = float(
     ultimo["Velocidad del basculante (%)"]
 )
+espesor_p1 = float(
+    ultimo["Espesor expeller (mm) PRENSA 1"]
+)
 
+espesor_p2 = float(
+    ultimo["Espesor expeller (mm) PRENSA 2"]
+)
 
 # ======================================
 # FUNCION TARJETA
@@ -445,6 +483,37 @@ def sem_corr_coc3(v):
 
     else:
         return ("🟢 VERDE","green")
+
+# ======================================
+# ESPESOR EXPELLER
+# ======================================
+
+st.header("📦 Espesor de Expeller")
+
+c1, c2 = st.columns(2)
+
+estado, color = sem_expeller(espesor_p1)
+
+with c1:
+    tarjeta(
+        "EXPELLER P1",
+        f"{espesor_p1:.1f} mm",
+        estado,
+        color
+    )
+
+estado, color = sem_expeller(espesor_p2)
+
+with c2:
+    tarjeta(
+        "EXPELLER P2",
+        f"{espesor_p2:.1f} mm",
+        estado,
+        color
+    )
+
+st.caption("🟢 Rango objetivo: 14 - 16 mm")
+
 # ======================================
 # COCINAS
 # ======================================
