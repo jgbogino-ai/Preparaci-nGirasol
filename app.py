@@ -320,7 +320,7 @@ def sem_expeller(v):
         return ("🟡 AMARILLO", "orange")
 
     else:
-        return ("🔴 ROJO", "red")def sem_expeller(v):
+        return ("🔴 ROJO", "red")def sem_expeller(v)
 
     if v < 12:
         return ("🔴 ROJO", "red")
