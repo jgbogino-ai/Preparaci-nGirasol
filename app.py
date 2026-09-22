@@ -305,6 +305,11 @@ def sem_basculante(v):
     else:
         return ("🟢 VERDE", "green")
 
+
+# ======================================
+# ESPESOR EXPELLER
+# ======================================
+
 def sem_expeller(v):
 
     if v < 12:
@@ -320,23 +325,7 @@ def sem_expeller(v):
         return ("🟡 AMARILLO", "orange")
 
     else:
-        return ("🔴 ROJO", "red")def sem_expeller(v)
-
-    if v < 12:
         return ("🔴 ROJO", "red")
-
-    elif v < 14:
-        return ("🟡 AMARILLO", "orange")
-
-    elif v <= 16:
-        return ("🟢 VERDE", "green")
-
-    elif v <= 17:
-        return ("🟡 AMARILLO", "orange")
-
-    else:
-        return ("🔴 ROJO", "red")
-
 # ======================================
 # VARIABLES
 # ======================================
