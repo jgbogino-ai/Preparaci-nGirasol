@@ -169,8 +169,9 @@ c4.metric(
 
 c5.metric(
     "Silo Diario",
-    str(ultimo["SILO DIARIO"])
+    int(float(ultimo["SILO DIARIO"]))
 )
+
 
 c6.metric(
     "Tipo Producto",
