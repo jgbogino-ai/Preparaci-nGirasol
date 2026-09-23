@@ -7,7 +7,17 @@ import plotly.express as px
 # ==================================================
 
 URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vSPwdonlIsyjr7cLcQm0tdn-D5Q5hi2345xHQA1bQACv9D8qPABYMtHijFjxPgEoejnE8SWRjsKovpd/pub?output=csv"
-
+st.markdown("""
+<style>
+[data-testid="stMetric"] {
+    border: 2px solid #1E8449;
+    border-radius: 12px;
+    padding: 12px;
+    background-color: #0B1220;
+    text-align: center;
+}
+</style>
+""", unsafe_allow_html=True)
 st.set_page_config(
     page_title="Pelleteado",
     page_icon="🏭",
