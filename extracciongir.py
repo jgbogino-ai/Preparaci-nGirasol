@@ -11,7 +11,17 @@ st.set_page_config(
     page_icon="💨",
     layout="wide"
 )
-
+st.markdown("""
+<style>
+[data-testid="stMetric"] {
+    border: 2px solid #1E8449;
+    border-radius: 12px;
+    padding: 12px;
+    background-color: #0B1220;
+    text-align: center;
+}
+</style>
+""", unsafe_allow_html=True)
 URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQAJcBxFTNaLQ6cpo7rMLhYSbqpGks79AztDgPULIobXyB1gHMyZI7TOVJg2zm62PJq7CQlN7pMie2N/pub?gid=884320541&single=true&output=csv"
 
 # ==================================================
