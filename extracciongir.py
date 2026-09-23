@@ -154,7 +154,7 @@ c1, c2, c3, c4, c5 = st.columns(5)
 with c1:
     st.metric(
         "Caudal Dest.",
-        round(float(ultimo["CAUDAL DESTILACIÓN (lt/h)"]), 0)
+        int(float(ultimo["CAUDAL DESTILACIÓN (lt/h)"]))
     )
 
 with c2:
@@ -166,13 +166,13 @@ with c2:
 with c3:
     st.metric(
         "Extractor",
-        round(float(ultimo["EXTRACTOR TEMPERATURA (°C)"]), 1)
+        int(float(ultimo["EXTRACTOR TEMPERATURA (°C)"]))
     )
 
 with c4:
     st.metric(
         "Densidad",
-        round(float(ultimo["DENSIDAD DESTILACIÓN (kg/m3)"]), 1)
+        int(float(ultimo["DENSIDAD DESTILACIÓN (kg/m3)"]))
     )
 
 with c5:
@@ -196,14 +196,15 @@ with c5:
     elif espacio < 100:
 
         st.error(
-            f"🚨 Espacio libre: {espacio:.0f} cm"
+            f"🚨 Espacio libre: {int(espacio)} cm"
         )
 
     else:
 
         st.success(
-            f"✅ Espacio libre: {espacio:.0f} cm"
+            f"✅ Espacio libre: {int(espacio)} cm"
         )
+
 # -------------------------
 # FILA 2
 # -------------------------
@@ -211,23 +212,33 @@ with c5:
 c7, c8, c9 = st.columns(3)
 
 with c7:
+
+    vacio = valor_seguro("EXTRACTOR VACÍO (mmca)")
+
     st.metric(
         "Vacío Extr.",
-        valor_seguro("EXTRACTOR VACÍO (mmca)")
+        int(vacio) if vacio is not None else "Sin dato"
     )
 
 with c8:
+
+    tka = valor_seguro("TKA SOLVENTE STOCK (lt)")
+
     st.metric(
         "TKA",
-        valor_seguro("TKA SOLVENTE STOCK (lt)")
+        f"{int(tka):,}".replace(",", ".")
+        if tka is not None else "Sin dato"
     )
 
 with c9:
+
+    tkb = valor_seguro("TKB SOLVENTE STOCK (lt)")
+
     st.metric(
         "TKB",
-        valor_seguro("TKB SOLVENTE STOCK (lt)")
+        f"{int(tkb):,}".replace(",", ".")
+        if tkb is not None else "Sin dato"
     )
-      
 # ==================================================
 # SEMAFOROS OPERATIVOS
 # ==================================================
