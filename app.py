@@ -666,15 +666,13 @@ if gases > 80:
 # ULTIMOS REGISTROS
 # ======================================
 
-#st.subheader("📋 Últimos Registros")
+st.subheader("📋 Últimos 30 Registros")
 
-#df_mostrar = df.copy()
-
-
-#st.dataframe(
-#    df.tail(20).astype(str),
-#   use_container_width=True
-#)
+st.dataframe(
+    df.tail(30).iloc[::-1],
+    use_container_width=True,
+    hide_index=True
+)
 # ======================================
 # ULTIMOS REGISTROS
 # ======================================
