@@ -156,38 +156,46 @@ if hum_salida < 6 or hum_salida > 8:
         f"⚠ Humedad Salida Secadora fuera de rango: {hum_salida:.1f}%"
     )
 
-c1, c2, c3, c4, c5, c6 = st.columns(6)
+presion_soplante = float(
+    ultimo["Presion salida del soplante de cáscara (mh2o)"]
+)
+
+c1, c2, c3, c4, c5, c6, c7 = st.columns(7)
 
 c1.metric(
     "Producción tn/h",
-    round(pesaje, 2)
+    int(pesaje)
 )
 
 c2.metric(
     "Humedad Entrada %",
-    round(hum_entrada, 2)
+    round(hum_entrada, 1)
 )
 
 c3.metric(
     "Humedad Salida %",
-    round(hum_salida, 2)
+    round(hum_salida, 1)
 )
 
 c4.metric(
     "Temp. Gases °C",
-    round(temp_gases, 2)
+    int(temp_gases)
 )
 
 c5.metric(
+    "Presión Soplante",
+    int(presion_soplante)
+)
+
+c6.metric(
     "Silo Diario",
     int(float(ultimo["SILO DIARIO"]))
 )
 
-
-c6.metric(
+c7.metric(
     "Tipo Producto",
     str(ultimo["Tipo de producto"])
-)
+)    
 
 
 # ======================================
