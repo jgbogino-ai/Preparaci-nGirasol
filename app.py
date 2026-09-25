@@ -668,8 +668,11 @@ if gases > 80:
 
 st.subheader("📋 Últimos 30 Registros")
 
+# eliminar columnas duplicadas
+df_mostrar = df.loc[:, ~df.columns.duplicated()].copy()
+
 st.dataframe(
-    df.tail(30).iloc[::-1],
+    df_mostrar.tail(30).iloc[::-1],
     use_container_width=True,
     hide_index=True
 )
