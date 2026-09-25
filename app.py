@@ -184,7 +184,7 @@ c4.metric(
 
 c5.metric(
     "Presión Soplante",
-    int(presion_soplante)
+    f"{presion_soplante:.2f}"
 )
 
 c6.metric(
