@@ -186,9 +186,18 @@ with c4:
     )
 
 with c5:
+
+    efluente = str(ultimo["Efluente cero"])
+
+    if efluente == "Venteando":
+        efluente = "Vent."
+
+    elif efluente == "Al toaster":
+        efluente = "Toaster"
+
     st.metric(
         "Efluente Cero",
-        str(ultimo["Efluente cero"])
+        efluente
     )
 
 with c6:
