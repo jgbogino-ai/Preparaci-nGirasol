@@ -159,7 +159,7 @@ st.subheader("📊 Indicadores Principales")
 # FILA 1
 # -------------------------
 
-c1, c2, c3, c4, c5 = st.columns(5)
+c1, c2, c3, c4, c5, c6, c7 = st.columns(7)
 
 with c1:
     st.metric(
@@ -186,6 +186,18 @@ with c4:
     )
 
 with c5:
+    st.metric(
+        "Efluente Cero",
+        str(ultimo["Efluente cero"])
+    )
+
+with c6:
+    st.metric(
+        "Nivel TK45",
+        f"{int(float(ultimo['Nivel de tk45 (%)']))}%"
+    )
+
+with c7:
 
     tk_destino = str(ultimo["# TK DESTINO CRUDO"])
 
