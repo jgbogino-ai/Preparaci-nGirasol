@@ -7,7 +7,7 @@ st.markdown("""
 <style>
 [data-testid="stMetric"] {
     border: 2px solid #1E8449;
-    border-radius: 12px;
+    border-radius: 12px;    
     padding: 12px;
     background-color: #0B1220;
     text-align: center;
@@ -63,6 +63,38 @@ fecha_ultima = ultima_carga["Marca temporal"]
 operador_ultimo = ultima_carga["Operador"]
 
 supervisor_ultimo = ultima_carga["Supervisor"]
+
+# ======================================
+# ESTADO DE PLANTA
+# ======================================
+
+estado_planta = str(
+    ultima_carga["Estado de Basculante"]
+).strip().upper()
+
+if "AUTO" in estado_planta:
+
+    st.success(
+        "🟢 PLANTA EN MARCHA AUTOMÁTICO"
+    )
+
+elif "MANUAL" in estado_planta:
+
+    st.warning(
+        "🟡 PLANTA EN MARCHA MANUAL"
+    )
+
+elif "SILO" in estado_planta:
+
+    st.info(
+        f"🔵 PLANTA EN MARCHA DIRECTO DEL {estado_planta}"
+    )
+
+else:
+
+    st.info(
+        f"ℹ️ {estado_planta}"
+    )
 
 ahora = pd.Timestamp.now(tz=None)
 
