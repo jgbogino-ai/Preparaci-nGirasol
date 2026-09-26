@@ -215,17 +215,23 @@ amp3 = pd.to_numeric(
 )
 
 temp1 = pd.to_numeric(
-    ultimo["Temperatura de material de salida enfriador de pellet 1 (°C)"],
+    str(
+        ultimo["Temperatura de material de salida enfriador de pellet 1 (°C)"]
+    ).replace(",", "."),
     errors="coerce"
 )
 
 temp2 = pd.to_numeric(
-    ultimo["Temperatura de material de salida enfriador de pellet 2 (°C)"],
+    str(
+        ultimo["Temperatura de material de salida enfriador de pellet 2 (°C)"]
+    ).replace(",", "."),
     errors="coerce"
 )
 
 temp3 = pd.to_numeric(
-    ultimo["Temperatura de material de salida enfriador de pellet 3 (°C)"],
+    str(
+        ultimo["Temperatura de material de salida enfriador de pellet 3 (°C)"]
+    ).replace(",", "."),
     errors="coerce"
 )
 
