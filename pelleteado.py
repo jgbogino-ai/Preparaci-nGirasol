@@ -317,7 +317,7 @@ c3.metric(
 # ESTADO DE SILOS
 # ==================================================
 
-st.header("🏗️ Estado de Silos")
+st.subheader("🛢️ Estado de Silos")
 
 s1, s2, s3 = st.columns(3)
 
