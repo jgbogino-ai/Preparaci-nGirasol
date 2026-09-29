@@ -216,29 +216,7 @@ def tarjeta(titulo, valor, estado, color):
         unsafe_allow_html=True
     )
 
-# ==================================================
-# TARJETA SILO
-# ==================================================
 
-def tarjeta_silo(titulo, valor, color):
-
-    st.markdown(
-        f"""
-        <div style="
-            background-color:{color};
-            color:white;
-            padding:4px;
-            border-radius:10px;
-            text-align:center;
-            margin:2px;
-            height:70px;
-        ">
-            <h5 style="margin:3px;">{titulo}</h5>
-            <h4 style="margin:3px;">{valor}</h4>
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
 # ==================================================
 # VARIABLES
 # ==================================================
