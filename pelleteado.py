@@ -313,7 +313,39 @@ c3.metric(
     "Silo Destino",
     str(ultimo["Número de silo destino"])
 )
+# ==================================================
+# ESTADO DE SILOS
+# ==================================================
 
+st.header("🏗️ Estado de Silos")
+
+s1, s2, s3 = st.columns(3)
+
+valor, color = estado_silo(ultimo["Nivel Silo 1"])
+with s1:
+    tarjeta("SILO 1", valor, "", color)
+
+valor, color = estado_silo(ultimo["Nivel Silo 2"])
+with s2:
+    tarjeta("SILO 2", valor, "", color)
+
+valor, color = estado_silo(ultimo["Nivel Silo 3"])
+with s3:
+    tarjeta("SILO 3", valor, "", color)
+
+s4, s5, s6 = st.columns(3)
+
+valor, color = estado_silo(ultimo["Nivel Silo 4"])
+with s4:
+    tarjeta("SILO 4", valor, "", color)
+
+valor, color = estado_silo(ultimo["Nivel Silo 5"])
+with s5:
+    tarjeta("SILO 5", valor, "", color)
+
+valor, color = estado_silo(ultimo["Nivel Silo 6"])
+with s6:
+    tarjeta("SILO 6", valor, "", color)
 # ==================================================
 # PELLETEADORAS
 # ==================================================
@@ -398,39 +430,7 @@ tarjeta(
     estado,
     color
 )
-# ==================================================
-# ESTADO DE SILOS
-# ==================================================
 
-st.header("🏗️ Estado de Silos")
-
-s1, s2, s3 = st.columns(3)
-
-valor, color = estado_silo(ultimo["Nivel Silo 1"])
-with s1:
-    tarjeta("SILO 1", valor, "", color)
-
-valor, color = estado_silo(ultimo["Nivel Silo 2"])
-with s2:
-    tarjeta("SILO 2", valor, "", color)
-
-valor, color = estado_silo(ultimo["Nivel Silo 3"])
-with s3:
-    tarjeta("SILO 3", valor, "", color)
-
-s4, s5, s6 = st.columns(3)
-
-valor, color = estado_silo(ultimo["Nivel Silo 4"])
-with s4:
-    tarjeta("SILO 4", valor, "", color)
-
-valor, color = estado_silo(ultimo["Nivel Silo 5"])
-with s5:
-    tarjeta("SILO 5", valor, "", color)
-
-valor, color = estado_silo(ultimo["Nivel Silo 6"])
-with s6:
-    tarjeta("SILO 6", valor, "", color)
 # ==================================================
 # ULTIMAS 24 CARGAS
 # ==================================================
