@@ -261,10 +261,10 @@ def sem_prensa3(v):
         return ("🟢 VERDE","green")
 
 def sem_cocina1(v):
-    return ("🟢 VERDE","green") if 111 <= v <= 114 else ("🔴 ROJO","red")
+    return ("🟢 VERDE","green") if 110 <= v <= 114 else ("🔴 ROJO","red")
 
 def sem_cocina2(v):
-    return ("🟢 VERDE","green") if 104 <= v <= 110 else ("🔴 ROJO","red")
+    return ("🟢 VERDE","green") if 110 <= v <= 114 else ("🔴 ROJO","red")
 def sem_cocina3(v):
     if v < 85:
         return ("🔴 ROJO","red")
