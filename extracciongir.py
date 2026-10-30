@@ -276,7 +276,7 @@ with c9:
 
 st.subheader("🚦 Estado Operativo")
 
-c1, c2, c3, c4, c5, c6, c7 = st.columns(7)
+c1, c2, c3, c4, c5, c6, c7, c8, c9 = st.columns(9)
 
 # ==========================================
 # EXTRACTOR
@@ -477,6 +477,70 @@ with c7:
         st.warning(f"🟡 {temp_torre:.1f} °C")
     else:
         st.error(f"🔴 {temp_torre:.1f} °C")
+
+# ==========================================
+# BAJO VACÍO
+# ==========================================
+
+bajo_vacio = valor_seguro(
+    "BAJO VACÍO (mmHg)"
+)
+
+with c8:
+
+    st.markdown("""
+    <div style="height:75px">
+    <b style="font-size:18px">Bajo Vacío</b><br>
+    <span style="color:#7FFF7F;font-size:14px">
+    > 410 mmHg
+    </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if bajo_vacio is None:
+        st.warning("Sin dato")
+
+    elif bajo_vacio < 390:
+        st.error(f"🔴 {bajo_vacio:.0f}")
+
+    elif bajo_vacio <= 410:
+        st.warning(f"🟡 {bajo_vacio:.0f}")
+
+    else:
+        st.success(f"🟢 {bajo_vacio:.0f}")
+
+# ==========================================
+# ALTO VACÍO
+# ==========================================
+
+alto_vacio = valor_seguro(
+    "ALTO VACÍO (mmHg)"
+)
+
+with c9:
+
+    st.markdown("""
+    <div style="height:75px">
+    <b style="font-size:18px">Alto Vacío</b><br>
+    <span style="color:#7FFF7F;font-size:14px">
+    > 610 mmHg
+    </span>
+    </div>
+    """, unsafe_allow_html=True)
+
+    if alto_vacio is None:
+        st.warning("Sin dato")
+
+    elif alto_vacio < 590:
+        st.error(f"🔴 {alto_vacio:.0f}")
+
+    elif alto_vacio <= 610:
+        st.warning(f"🟡 {alto_vacio:.0f}")
+
+    else:
+        st.success(f"🟢 {alto_vacio:.0f}")
+
+
 # ==================================================
 # ULTIMO REGISTRO
 # ==================================================
